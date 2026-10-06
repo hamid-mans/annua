@@ -2,3 +2,6 @@ workers:
     docker_compose: ~
     tailwind:
         cmd: ['symfony', 'console', 'tailwind:build', '--watch']
+
+http:
+    port: 2000

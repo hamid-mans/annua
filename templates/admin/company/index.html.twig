@@ -1,0 +1,47 @@
+{% extends 'admin.base.html.twig' %}
+
+{% block title %}Sociétés{% endblock %}
+
+{% block body %}
+    <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold tracking-tight">Sociétés</h1>
+            <p class="mt-1 text-sm text-base-content/60">
+                {{ rows|length }} {{ rows|length > 1 ? 'sociétés enregistrées' : 'société enregistrée' }}
+            </p>
+        </div>
+        <a href="{{ path('admin.company.new') }}" class="btn btn-primary btn-sm">Nouvelle société</a>
+    </div>
+
+    {% if rows is empty %}
+        <div class="rounded-box border border-dashed border-base-300 bg-base-100 p-12 text-center">
+            <p class="font-medium">Aucune société pour le moment</p>
+            <p class="mt-1 text-sm text-base-content/60">Créez une première société pour pouvoir lui rattacher des utilisateurs.</p>
+            <a href="{{ path('admin.company.new') }}" class="btn btn-primary btn-sm mt-5">Nouvelle société</a>
+        </div>
+    {% else %}
+        <div class="overflow-x-auto rounded-box border border-base-300/70 bg-base-100">
+            <table class="table">
+                <thead>
+                <tr class="text-xs uppercase tracking-wide text-base-content/50">
+                    <th>Nom</th>
+                    <th>Utilisateurs</th>
+                    <th class="text-right"><span class="sr-only">Ouvrir</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for row in rows %}
+                    {% set company = row[0] %}
+                    <tr class="relative hover:bg-base-200/60">
+                        <td>
+                            <a href="{{ path('admin.company.show', {id: company.id}) }}" class="font-medium after:absolute after:inset-0">{{ company.name }}</a>
+                        </td>
+                        <td class="text-base-content/70">{{ row.userCount }}</td>
+                        <td class="text-right text-sm text-base-content/40" aria-hidden="true">Ouvrir →</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

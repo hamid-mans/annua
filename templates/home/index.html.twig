@@ -1,9 +1,273 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Vitrine{% endblock %}
+{% block title %}Annua - Gestion de parc automobile pour TPE, PME et associations{% endblock %}
 
 {% block body %}
-    <p>
-        Site vitrine
-    </p>
+    {% set contact_email = 'contact@exemple.fr' %}
+    {% set price_label = 'XX €' %}
+    {% set price_period = 'par mois' %}
+
+    <main id="top" class="bg-base-100 text-base-content">
+        <section class="mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:py-24">
+            <div>
+                <span class="badge badge-soft badge-accent mb-5">Gestion de parc automobile</span>
+                <h1 class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+                    Plus de CT oublié. Plus d'info perdue entre le conducteur et le bureau.
+                </h1>
+                <p class="mt-5 max-w-xl text-lg text-base-content/70">
+                    Annua centralise les échéances, les kilométrages et les documents de vos véhicules, pour les TPE, PME et associations qui veulent quitter les tableurs sans passer à une usine à gaz.
+                </p>
+                <div class="mt-8 flex flex-wrap items-center gap-3">
+                    <a href="#contact" class="btn btn-primary">
+                        Demander un accès
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"/>
+                        </svg>
+                    </a>
+                    <a href="#fonctionnalites" class="btn btn-ghost">Découvrir les fonctionnalités</a>
+                </div>
+                <p class="mt-5 text-sm text-base-content/50">Seul le gestionnaire paie : vos conducteurs accèdent à Annua sans frais.</p>
+            </div>
+
+            <div class="relative">
+                <div class="rounded-box border border-base-300/70 bg-base-200 p-5 shadow-sm">
+                    <div class="mb-4 flex items-center justify-between">
+                        <h2 class="text-sm font-semibold">Échéances à venir</h2>
+                        <span class="text-xs text-base-content/40">Exemple</span>
+                    </div>
+                    <ul class="divide-y divide-base-300/70 rounded-box border border-base-300/70 bg-base-100">
+                        <li class="flex items-center justify-between gap-3 px-4 py-3">
+                            <div>
+                                <p class="text-sm font-medium">Fourgon utilitaire</p>
+                                <p class="text-xs text-base-content/50">AB-123-CD · Contrôle technique</p>
+                            </div>
+                            <span class="badge badge-soft badge-error">Dans 6 jours</span>
+                        </li>
+                        <li class="flex items-center justify-between gap-3 px-4 py-3">
+                            <div>
+                                <p class="text-sm font-medium">Citadine</p>
+                                <p class="text-xs text-base-content/50">EF-456-GH · Assurance</p>
+                            </div>
+                            <span class="badge badge-soft badge-warning">Dans 3 semaines</span>
+                        </li>
+                        <li class="flex items-center justify-between gap-3 px-4 py-3">
+                            <div>
+                                <p class="text-sm font-medium">Moto</p>
+                                <p class="text-xs text-base-content/50">IJ-789-KL · Entretien</p>
+                            </div>
+                            <span class="badge badge-soft badge-success">Dans 2 mois</span>
+                        </li>
+                    </ul>
+                    <div class="mt-4 flex items-center justify-between rounded-box border border-base-300/70 bg-base-100 px-4 py-3">
+                        <div>
+                            <p class="text-sm font-medium">Relevé kilométrique</p>
+                            <p class="text-xs text-base-content/50">Déclaré par le conducteur</p>
+                        </div>
+                        <p class="text-sm font-semibold">48 320 km</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="border-y border-base-300/70 bg-base-200">
+            <div class="mx-auto max-w-3xl px-4 py-14 text-center sm:px-6">
+                <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Votre parc vit encore dans un tableur ?</h2>
+                <p class="mt-4 text-base-content/70">
+                    Un fichier Excel, un document partagé que tout le monde peut modifier, une seule personne qui connaît les dates par cœur. Tant que tout va bien, ça tient. Le jour où l'information se perd, c'est un contrôle technique dépassé ou une assurance qui expire sans que personne ne l'ait vu.
+                </p>
+            </div>
+        </section>
+
+        <section id="fonctionnalites" class="mx-auto max-w-6xl scroll-mt-20 px-4 py-16 sm:px-6 lg:py-24">
+            <div class="mx-auto max-w-2xl text-center">
+                <h2 class="text-3xl font-bold tracking-tight">Tout ce qu'il faut pour suivre votre parc</h2>
+                <p class="mt-3 text-base-content/70">Simple à prendre en main, pensé pour le quotidien d'un gestionnaire et de ses conducteurs.</p>
+            </div>
+
+            <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <article class="rounded-box border border-base-300/70 bg-base-100 p-6">
+                    <div class="mb-4 flex size-10 items-center justify-center rounded-lg bg-base-200 text-accent">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3M4 11h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold">Échéances personnalisables</h3>
+                    <p class="mt-2 text-sm text-base-content/70">Contrôle technique, assurance, entretien : créez vos propres types d'échéances et suivez-les véhicule par véhicule.</p>
+                </article>
+
+                <article class="rounded-box border border-base-300/70 bg-base-100 p-6">
+                    <div class="mb-4 flex size-10 items-center justify-center rounded-lg bg-base-200 text-accent">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.93 19.07a10 10 0 1 1 14.14 0M12 13l3.5-3.5"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold">Relevés kilométriques</h3>
+                    <p class="mt-2 text-sm text-base-content/70">Le kilométrage vient des relevés. La fiche de chaque véhicule affiche toujours le dernier relevé connu.</p>
+                </article>
+
+                <article class="rounded-box border border-base-300/70 bg-base-100 p-6">
+                    <div class="mb-4 flex size-10 items-center justify-center rounded-lg bg-base-200 text-accent">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 3h7l5 5v13H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm7 0v5h5"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold">Documents au même endroit</h3>
+                    <p class="mt-2 text-sm text-base-content/70">Carte grise, attestation d'assurance, contrats : chaque document est rattaché à son véhicule, plus de recherche dans les mails.</p>
+                </article>
+
+                <article class="rounded-box border border-base-300/70 bg-base-100 p-6">
+                    <div class="mb-4 flex size-10 items-center justify-center rounded-lg bg-base-200 text-accent">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 19v-1a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v1M10 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm9 8v-1a4 4 0 0 0-3-3.87M15 5.13a3 3 0 0 1 0 5.74"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold">Un espace pour les conducteurs</h3>
+                    <p class="mt-2 text-sm text-base-content/70">Vos conducteurs font leurs déclarations eux-mêmes depuis leur propre accès, sans passer par le bureau.</p>
+                </article>
+
+                <article class="rounded-box border border-base-300/70 bg-base-100 p-6">
+                    <div class="mb-4 flex size-10 items-center justify-center rounded-lg bg-base-200 text-accent">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6Zm4 9a2 2 0 0 0 4 0"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold">Prévenu avant l'échéance</h3>
+                    <p class="mt-2 text-sm text-base-content/70">Annua vous signale ce qui arrive à terme pour que rien ne soit découvert au dernier moment.</p>
+                </article>
+
+                <article class="rounded-box border border-base-300/70 bg-base-100 p-6">
+                    <div class="mb-4 flex size-10 items-center justify-center rounded-lg bg-base-200 text-accent">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6l-7-3Zm-3 9 2 2 4-4"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold">Gestionnaire, conducteur, ou les deux</h3>
+                    <p class="mt-2 text-sm text-base-content/70">Une même personne peut cumuler les rôles : le gérant qui conduit aussi n'a qu'un seul compte à utiliser.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="fonctionnement" class="scroll-mt-20 border-y border-base-300/70 bg-base-200">
+            <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+                <div class="mx-auto max-w-2xl text-center">
+                    <h2 class="text-3xl font-bold tracking-tight">Prêt en trois étapes</h2>
+                </div>
+
+                <ol class="mt-12 grid gap-6 md:grid-cols-3">
+                    <li class="rounded-box border border-base-300/70 bg-base-100 p-6">
+                        <span class="flex size-8 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-content">1</span>
+                        <h3 class="mt-4 font-semibold">Ajoutez vos véhicules</h3>
+                        <p class="mt-2 text-sm text-base-content/70">Motos, voitures, petits camions : renseignez votre parc et ses échéances.</p>
+                    </li>
+                    <li class="rounded-box border border-base-300/70 bg-base-100 p-6">
+                        <span class="flex size-8 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-content">2</span>
+                        <h3 class="mt-4 font-semibold">Invitez vos conducteurs</h3>
+                        <p class="mt-2 text-sm text-base-content/70">Chacun reçoit un lien de connexion et définit son mot de passe en quelques secondes.</p>
+                    </li>
+                    <li class="rounded-box border border-base-300/70 bg-base-100 p-6">
+                        <span class="flex size-8 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-content">3</span>
+                        <h3 class="mt-4 font-semibold">Gardez une longueur d'avance</h3>
+                        <p class="mt-2 text-sm text-base-content/70">Les relevés et déclarations remontent seuls, vous voyez d'un coup d'œil ce qui arrive.</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="tarifs" class="mx-auto max-w-6xl scroll-mt-20 px-4 py-16 sm:px-6 lg:py-24">
+            <div class="mx-auto max-w-2xl text-center">
+                <h2 class="text-3xl font-bold tracking-tight">Un tarif accessible</h2>
+                <p class="mt-3 text-base-content/70">Seul le gestionnaire paie. Vos conducteurs utilisent Annua sans frais.</p>
+            </div>
+
+            <div class="mx-auto mt-12 max-w-md rounded-box border border-base-300/70 bg-base-100 p-8 shadow-sm">
+                <h3 class="text-lg font-semibold">Gestionnaire</h3>
+                <p class="mt-4 flex items-baseline gap-2">
+                    <span class="text-4xl font-bold tracking-tight">{{ price_label }}</span>
+                    <span class="text-sm text-base-content/50">{{ price_period }}</span>
+                </p>
+                <ul class="mt-6 space-y-3 text-sm">
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 size-4 shrink-0 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m5 12 5 5L20 7"/>
+                        </svg>
+                        <span>Suivi des échéances de tout votre parc</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 size-4 shrink-0 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m5 12 5 5L20 7"/>
+                        </svg>
+                        <span>Relevés kilométriques et documents par véhicule</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 size-4 shrink-0 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m5 12 5 5L20 7"/>
+                        </svg>
+                        <span>Accès conducteur sans frais supplémentaires</span>
+                    </li>
+                </ul>
+                <a href="#contact" class="btn btn-primary mt-8 w-full">Demander un accès</a>
+            </div>
+        </section>
+
+        <section id="faq" class="scroll-mt-20 border-y border-base-300/70 bg-base-200">
+            <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:py-24">
+                <h2 class="text-center text-3xl font-bold tracking-tight">Questions fréquentes</h2>
+
+                <div class="mt-10 space-y-3">
+                    <div class="collapse collapse-arrow rounded-box border border-base-300/70 bg-base-100">
+                        <input type="radio" name="faq" checked="checked" aria-label="Pour quels types de véhicules ?">
+                        <div class="collapse-title font-medium">Pour quels types de véhicules ?</div>
+                        <div class="collapse-content text-sm text-base-content/70">
+                            <p>Motos, voitures et petits camions. Annua est pensé pour des parcs allant de quelques véhicules à une centaine.</p>
+                        </div>
+                    </div>
+
+                    <div class="collapse collapse-arrow rounded-box border border-base-300/70 bg-base-100">
+                        <input type="radio" name="faq" aria-label="Mes conducteurs doivent-ils payer ?">
+                        <div class="collapse-title font-medium">Mes conducteurs doivent-ils payer ?</div>
+                        <div class="collapse-content text-sm text-base-content/70">
+                            <p>Non. Seul le gestionnaire est facturé. Les conducteurs disposent d'un accès dédié pour faire leurs déclarations.</p>
+                        </div>
+                    </div>
+
+                    <div class="collapse collapse-arrow rounded-box border border-base-300/70 bg-base-100">
+                        <input type="radio" name="faq" aria-label="Comment mes conducteurs se connectent-ils ?">
+                        <div class="collapse-title font-medium">Comment mes conducteurs se connectent-ils ?</div>
+                        <div class="collapse-content text-sm text-base-content/70">
+                            <p>Ils reçoivent un lien de connexion par e-mail, qui les invite à choisir leur mot de passe. Aucune installation n'est nécessaire.</p>
+                        </div>
+                    </div>
+
+                    <div class="collapse collapse-arrow rounded-box border border-base-300/70 bg-base-100">
+                        <input type="radio" name="faq" aria-label="Faut-il installer quelque chose ? Cela fonctionne-t-il hors connexion ?">
+                        <div class="collapse-title font-medium">Faut-il installer quelque chose ? Est-ce utilisable hors connexion ?</div>
+                        <div class="collapse-content text-sm text-base-content/70">
+                            <p>Annua s'utilise dans le navigateur, sur ordinateur comme sur mobile, et nécessite une connexion internet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="mx-auto max-w-3xl scroll-mt-20 px-4 py-16 text-center sm:px-6 lg:py-24">
+            <h2 class="text-3xl font-bold tracking-tight">Parlons de votre parc</h2>
+            <p class="mx-auto mt-3 max-w-xl text-base-content/70">
+                Annua évolue avec les retours de ses premiers utilisateurs. Écrivez-nous pour demander un accès ou poser une question.
+            </p>
+            <a href="mailto:{{ contact_email }}" class="btn btn-primary mt-8">
+                {{ contact_email }}
+            </a>
+        </section>
+    </main>
+
+    <footer class="border-t border-base-300/70 bg-base-200">
+        <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-base-content/60 sm:flex-row sm:px-6">
+            <p>© {{ 'now'|date('Y') }} Annua. Tous droits réservés.</p>
+            <nav class="flex items-center gap-5" aria-label="Liens légaux">
+                <a href="#" class="hover:text-base-content">Mentions légales</a>
+                <a href="#" class="hover:text-base-content">Politique de confidentialité</a>
+                <a href="#" class="hover:text-base-content">CGU</a>
+            </nav>
+        </div>
+    </footer>
 {% endblock %}

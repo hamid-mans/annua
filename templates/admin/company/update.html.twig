@@ -1,0 +1,189 @@
+{% extends 'admin.base.html.twig' %}
+
+{% block title %}{{ company_name }}{% endblock %}
+
+{% block body %}
+    <a href="{{ path('admin.company.index') }}" class="text-sm text-base-content/60 hover:text-base-content">← Retour aux sociétés</a>
+
+    <div class="mb-6 mt-3">
+        <h1 class="text-2xl font-bold tracking-tight">{{ company_name }}</h1>
+        <p class="mt-1 text-sm text-base-content/60">
+            {{ company.users|length }} {{ company.users|length > 1 ? 'utilisateurs' : 'utilisateur' }}
+        </p>
+    </div>
+
+    <div class="tabs tabs-border">
+        <input type="radio" name="company_tabs" class="tab" aria-label="Informations" {{ active_tab == 'info' ? 'checked' : '' }}>
+        <div class="tab-content pt-6">
+            <div class="max-w-xl rounded-box border border-base-300/70 bg-base-100 p-6">
+                {{ form_start(company_form, {attr: {novalidate: 'novalidate'}}) }}
+                {% if company_form.vars.errors|length > 0 %}
+                    <div role="alert" class="alert alert-soft alert-error mb-5">
+                            <span>
+                                {% for error in company_form.vars.errors %}{{ error.message }} {% endfor %}
+                            </span>
+                    </div>
+                {% endif %}
+
+                <div class="mb-5 space-y-1.5">
+                    {{ form_label(company_form.name, null, {label_attr: {class: 'block text-sm font-medium'}}) }}
+                    {{ form_widget(company_form.name, {attr: {class: 'input w-full' ~ (company_form.name.vars.errors|length > 0 ? ' input-error' : '')}}) }}
+                    {% for error in company_form.name.vars.errors %}
+                        <p class="text-sm text-error">{{ error.message }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="mt-6">
+                    <button type="submit" class="btn btn-primary btn-sm">Enregistrer</button>
+                </div>
+                {{ form_end(company_form) }}
+            </div>
+
+            <div class="mt-6 max-w-xl rounded-box border border-error/30 bg-base-100 p-6">
+                <h2 class="font-semibold">Supprimer la société</h2>
+                {% if company.users is empty %}
+                    <p class="mt-1 text-sm text-base-content/60">Cette action est définitive.</p>
+                    <form method="post" action="{{ path('admin.company.delete', {id: company.id}) }}" class="mt-4" onsubmit="return confirm('Supprimer définitivement cette société ?')">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete-company-' ~ company.id) }}">
+                        <button type="submit" class="btn btn-sm text-error">Supprimer la société</button>
+                    </form>
+                {% else %}
+                    <p class="mt-1 text-sm text-base-content/60">Impossible tant que la société compte des utilisateurs : supprimez-les d'abord depuis l'onglet Utilisateurs.</p>
+                    <button type="button" class="btn btn-sm mt-4" disabled>Supprimer la société</button>
+                {% endif %}
+            </div>
+        </div>
+
+        <input type="radio" name="company_tabs" class="tab" aria-label="Utilisateurs ({{ company.users|length }})" {{ active_tab == 'users' ? 'checked' : '' }}>
+        <div class="tab-content pt-6">
+            <div class="mb-4 flex items-center justify-between gap-4">
+                <h2 class="text-lg font-semibold">Utilisateurs</h2>
+                <a href="{{ path('admin.company.user.new', {id: company.id}) }}" class="btn btn-primary btn-sm">Ajouter un utilisateur</a>
+            </div>
+
+            {% if company.users is empty %}
+                <div class="rounded-box border border-dashed border-base-300 bg-base-100 p-10 text-center">
+                    <p class="font-medium">Aucun utilisateur dans cette société</p>
+                    <p class="mt-1 text-sm text-base-content/60">Ajoutez un gestionnaire pour commencer.</p>
+                </div>
+            {% else %}
+                <div class="overflow-x-auto rounded-box border border-base-300/70 bg-base-100">
+                    <table class="table">
+                        <thead>
+                        <tr class="text-xs uppercase tracking-wide text-base-content/50">
+                            <th>E-mail</th>
+                            <th>Rôles</th>
+                            <th class="text-right"><span class="sr-only">Modifier</span></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for member in company.users %}
+                            <tr class="relative hover:bg-base-200/60">
+                                <td>
+                                    <a href="{{ path('admin.company.user.edit', {id: company.id, userId: member.id}) }}" class="font-medium after:absolute after:inset-0">{{ member.email }}</a>
+                                </td>
+                                <td>
+                                    <div class="flex flex-wrap gap-1">
+                                        {% if 'ROLE_MANAGER' in member.roles %}
+                                            <span class="badge badge-soft badge-accent">Gestionnaire</span>
+                                        {% endif %}
+                                        {% if 'ROLE_DRIVER' in member.roles %}
+                                            <span class="badge badge-soft">Conducteur</span>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td class="text-right text-sm text-base-content/40" aria-hidden="true">Modifier →</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if user_form %}
+        <dialog class="modal modal-open" aria-labelledby="user-modal-title">
+            <div class="modal-box">
+                <a href="{{ path('admin.company.show', {id: company.id, tab: 'users'}) }}" class="btn btn-ghost btn-sm btn-circle absolute right-3 top-3" aria-label="Fermer">✕</a>
+
+                <h3 id="user-modal-title" class="text-lg font-semibold">
+                    {{ edited_user ? 'Modifier l\'utilisateur' : 'Nouvel utilisateur' }}
+                </h3>
+                <p class="mb-5 mt-1 text-sm text-base-content/60">{{ company_name }}</p>
+
+                {{ form_start(user_form, {attr: {novalidate: 'novalidate'}}) }}
+                {% if user_form.vars.errors|length > 0 %}
+                    <div role="alert" class="alert alert-soft alert-error mb-5">
+                            <span>
+                                {% for error in user_form.vars.errors %}{{ error.message }} {% endfor %}
+                            </span>
+                    </div>
+                {% endif %}
+
+                <div class="mb-5 space-y-1.5">
+                    {{ form_label(user_form.email, null, {label_attr: {class: 'block text-sm font-medium'}}) }}
+                    {{ form_widget(user_form.email, {attr: {class: 'input w-full' ~ (user_form.email.vars.errors|length > 0 ? ' input-error' : '')}}) }}
+                    {% for error in user_form.email.vars.errors %}
+                        <p class="text-sm text-error">{{ error.message }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-5 space-y-1.5">
+                    <span class="block text-sm font-medium">{{ user_form.roles.vars.label }}</span>
+                    <div class="flex flex-col gap-2">
+                        {% for choice in user_form.roles %}
+                            <label class="flex cursor-pointer items-center gap-2 text-sm">
+                                {{ form_widget(choice, {attr: {class: 'checkbox checkbox-sm'}}) }}
+                                <span>{{ choice.vars.label }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                    <p class="text-sm text-base-content/60">Un utilisateur peut cumuler les deux rôles.</p>
+                    {% for error in user_form.roles.vars.errors %}
+                        <p class="text-sm text-error">{{ error.message }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-5 space-y-1.5">
+                    {{ form_label(user_form.plainPassword.first, null, {label_attr: {class: 'block text-sm font-medium'}}) }}
+                    {{ form_widget(user_form.plainPassword.first, {attr: {class: 'input w-full' ~ (user_form.plainPassword.vars.errors|length > 0 or user_form.plainPassword.first.vars.errors|length > 0 ? ' input-error' : '')}}) }}
+                    <p class="text-sm text-base-content/60">
+                        {{ edited_user ? 'Laissez vide pour conserver le mot de passe actuel.' : '10 caractères minimum. À transmettre à l\'utilisateur.' }}
+                    </p>
+                    {% for error in user_form.plainPassword.vars.errors %}
+                        <p class="text-sm text-error">{{ error.message }}</p>
+                    {% endfor %}
+                    {% for error in user_form.plainPassword.first.vars.errors %}
+                        <p class="text-sm text-error">{{ error.message }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-5 space-y-1.5">
+                    {{ form_label(user_form.plainPassword.second, null, {label_attr: {class: 'block text-sm font-medium'}}) }}
+                    {{ form_widget(user_form.plainPassword.second, {attr: {class: 'input w-full' ~ (user_form.plainPassword.second.vars.errors|length > 0 ? ' input-error' : '')}}) }}
+                    {% for error in user_form.plainPassword.second.vars.errors %}
+                        <p class="text-sm text-error">{{ error.message }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="mt-6 flex items-center gap-2">
+                    <button type="submit" class="btn btn-primary btn-sm">{{ edited_user ? 'Enregistrer' : 'Créer l\'utilisateur' }}</button>
+                    <a href="{{ path('admin.company.show', {id: company.id, tab: 'users'}) }}" class="btn btn-ghost btn-sm">Annuler</a>
+                </div>
+                {{ form_end(user_form) }}
+
+                {% if edited_user %}
+                    <div class="mt-6 border-t border-base-300/70 pt-4">
+                        <form method="post" action="{{ path('admin.company.user.delete', {id: company.id, userId: edited_user.id}) }}" onsubmit="return confirm('Supprimer cet utilisateur ?')">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete-user-' ~ edited_user.id) }}">
+                            <button type="submit" class="btn btn-ghost btn-sm text-error hover:bg-error/10">Supprimer cet utilisateur</button>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+
+            <a href="{{ path('admin.company.show', {id: company.id, tab: 'users'}) }}" class="modal-backdrop" aria-label="Fermer"></a>
+        </dialog>
+    {% endif %}
+{% endblock %}
