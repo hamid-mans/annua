@@ -135,19 +135,24 @@
 {% endblock %}
 
 {% block magic_bar %}
-    <span class="text-sm text-base-content/60 font-mono">{{ vehicle.registrationNumber }}</span>
+    <span class="hidden font-mono text-sm text-base-content/60 sm:inline">{{ vehicle.registrationNumber }}</span>
+    <span class="dock-separator hidden sm:block" aria-hidden="true"></span>
 
-    <div class="ml-auto flex items-center gap-2">
-        <button type="submit" form="vehicle-form" class="btn btn-sm btn-primary">Enregistrer</button>
-        <a href="{{ path('app.vehicle.index') }}" class="btn btn-sm btn-ghost">Annuler</a>
+    <a href="{{ path('app.vehicle.index') }}" class="btn btn-sm btn-ghost">Annuler</a>
+    <button type="submit" form="vehicle-form" class="btn btn-sm btn-primary">Enregistrer</button>
 
-        <button type="button" class="btn btn-sm btn-ghost" onclick="window.print()">Imprimer</button>
+    <span class="dock-separator" aria-hidden="true"></span>
 
-        <div class="dropdown dropdown-top dropdown-end">
-            <div tabindex="0" role="button" class="btn btn-sm btn-square btn-ghost" aria-label="Plus d'actions">⋯</div>
-            <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-10 mb-2 w-48 p-2 shadow border border-base-300">
-                <li><button type="button" class="text-error" onclick="modal_delete_vehicle.showModal()">Supprimer</button></li>
-            </ul>
+    <button type="button" class="btn btn-sm btn-square btn-ghost" onclick="window.print()" aria-label="Imprimer" title="Imprimer">
+        <twig:ux:icon name="lucide:printer" class="size-4" />
+    </button>
+
+    <div class="dropdown dropdown-top dropdown-end">
+        <div tabindex="0" role="button" class="btn btn-sm btn-square btn-ghost" aria-label="Plus d'actions">
+            <twig:ux:icon name="lucide:ellipsis" class="size-4" />
         </div>
+        <ul tabindex="0" class="dropdown-content menu z-10 mb-3 w-48 rounded-box border border-base-300 bg-base-100 p-2 shadow">
+            <li><button type="button" class="text-error" onclick="modal_delete_vehicle.showModal()">Supprimer</button></li>
+        </ul>
     </div>
 {% endblock %}
