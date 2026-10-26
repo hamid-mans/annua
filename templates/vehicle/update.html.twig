@@ -1,115 +1,119 @@
 {% extends 'app.base.html.twig' %}
+{% form_theme form 'form/_inline_row.html.twig' %}
 
-{% block title('Voiture ' ~ vehicle.id) %}
+{% block title(vehicle.registrationNumber) %}
 
 {% block body %}
+    {{ form_start(form, {attr: {id: 'vehicle-form'}}) }}
 
-    {# ===== En-tête ===== #}
-    <div class="flex flex-wrap items-start justify-between gap-4">
-        <div>
-            <h1 class="text-2xl font-semibold">
-                {{ (vehicle.brand ~ ' ' ~ vehicle.model)|trim ?: 'Marque et modèle à renseigner' }}
-            </h1>
-            <p class="text-sm text-base-content/60">{{ vehicle.category.label }}</p>
+    {# Barre de contrôle : fil d'Ariane + statut #}
+    <div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+        <div class="breadcrumbs p-0 text-sm">
+            <ul>
+                <li><a href="{{ path('app.vehicle.index') }}">Véhicules</a></li>
+                <li class="font-medium">{{ vehicle.registrationNumber }}</li>
+            </ul>
+        </div>
 
-            <div class="flex items-center gap-3 mt-2">
-                <span class="font-mono text-lg font-semibold tracking-widest border-2 border-base-content/70 rounded-md px-3 py-0.5">
-                    {{ vehicle.registrationNumber }}
-                </span>
-                <span class="badge badge-outline">{{ vehicle.status.label }}</span>
+        <div class="join shadow rounded-box">
+            {% for choice in form.status %}
+                {{ form_widget(choice, {attr: {class: 'join-item btn btn-sm border', 'aria-label': choice.vars.label}}) }}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="sheet">
+        {# En-tête : plaque + identité #}
+        <div class="mb-5 flex items-center gap-4">
+            <div class="flex h-9 overflow-hidden rounded-md border-2 border-base-content">
+                <span class="flex w-4 items-end justify-center bg-blue-800 pb-0.5 text-[10px] text-white">F</span>
+                <span class="flex items-center px-3 font-mono text-lg font-semibold tracking-widest">{{ vehicle.registrationNumber }}</span>
+            </div>
+            <div>
+                <h1 class="text-xl font-semibold leading-tight">
+                    {{ (vehicle.brand ~ ' ' ~ vehicle.model)|trim ?: 'Marque et modèle à renseigner' }}
+                </h1>
+                <p class="text-sm text-base-content/60">
+                    {{ vehicle.category.label }}
+                    {%- if vehicle.energy %} · {{ vehicle.energy.label }}{% endif %}
+                    {%- if vehicle.firstRegistrationDate %} · mise en circulation {{ vehicle.firstRegistrationDate|date('m/Y') }}{% endif %}
+                </p>
             </div>
         </div>
-    </div>
 
-    {# ===== Indicateurs (à brancher : dernier relevé, échéances, affectation) ===== #}
-    <div class="stats stats-vertical sm:stats-horizontal border border-base-300 bg-base-100 w-full mb-6">
-        <div class="stat">
-            <div class="stat-title">Dernier relevé</div>
-            <div class="stat-value text-2xl">—</div>
+        {# Boutons intelligents : états neutres tant que les entités n'existent pas #}
+        <div class="mb-5 grid grid-cols-2 gap-2 lg:grid-cols-4">
+            <div class="smart-btn">
+                <twig:ux:icon name="lucide:calendar-clock" class="size-5 text-base-content/60" />
+                <div><p class="font-medium">Échéances</p><p class="text-base-content/60">Aucune</p></div>
+            </div>
+            <div class="smart-btn">
+                <twig:ux:icon name="lucide:gauge" class="size-5 text-base-content/60" />
+                <div><p class="font-medium">Kilométrage</p><p class="text-base-content/60">Aucun relevé</p></div>
+            </div>
+            <div class="smart-btn">
+                <twig:ux:icon name="lucide:user" class="size-5 text-base-content/60" />
+                <div><p class="font-medium">Conducteur</p><p class="text-base-content/60">Non affecté</p></div>
+            </div>
+            <div class="smart-btn">
+                <twig:ux:icon name="lucide:triangle-alert" class="size-5 text-base-content/60" />
+                <div><p class="font-medium">Signalements</p><p class="text-base-content/60">Aucun</p></div>
+            </div>
         </div>
-        <div class="stat">
-            <div class="stat-title">Prochaine échéance</div>
-            <div class="stat-value text-2xl">—</div>
-        </div>
-        <div class="stat">
-            <div class="stat-title">Conducteur actuel</div>
-            <div class="stat-value text-2xl">—</div>
-        </div>
-    </div>
 
-    {{ form_start(form, {attr: {id: 'vehicle-form'}}) }}
-    {{ form_errors(form) }}
+        <div class="tabs tabs-border">
+            <input type="radio" name="main_tab" class="tab" aria-label="Fiche" checked />
+            <div class="tab-content pt-4">
+                <div class="grid gap-x-10 gap-y-6 lg:grid-cols-2">
+                    <section>
+                        <h2 class="section-title">Identification</h2>
+                        {{ form_row(form.registrationNumber) }}
+                        {{ form_row(form.vin) }}
+                        {{ form_row(form.category) }}
+                        {{ form_row(form.brand) }}
+                        {{ form_row(form.model) }}
+                        {{ form_row(form.color) }}
+                    </section>
 
-    {# ===== Onglets ===== #}
-    <div class="tabs tabs-border">
+                    <section>
+                        <h2 class="section-title">Motorisation et masses</h2>
+                        {{ form_row(form.energy) }}
+                        {{ form_row(form.engineDisplacement) }}
+                        {{ form_row(form.netPowerKw) }}
+                        {{ form_row(form.fiscalPower) }}
+                        {{ form_row(form.co2Emissions) }}
+                        {{ form_row(form.seatCount) }}
+                        {{ form_row(form.unladenMass) }}
+                        {{ form_row(form.maxLadenMass) }}
+                        {{ form_row(form.maxCombinedMass) }}
+                    </section>
 
-        {# --- Fiche : le SEUL onglet qui contient le formulaire --- #}
-        <input type="radio" name="main_tab" class="tab" aria-label="Fiche" checked />
-        <div class="tab-content pt-6">
-
-
-            <section class="card card-border bg-base-100 mb-6">
-                <div class="card-body">
-                    <h2 class="card-title text-base">Identification</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6">
-                        <div class="field">{{ form_row(form.registrationNumber) }}</div>
-                        <div class="field">{{ form_row(form.vin) }}</div>
-                        <div class="field">{{ form_row(form.category) }}</div>
-                        <div class="field">{{ form_row(form.status) }}</div>
-                        <div class="field">{{ form_row(form.brand) }}</div>
-                        <div class="field">{{ form_row(form.model) }}</div>
-                        <div class="field">{{ form_row(form.color) }}</div>
-                    </div>
+                    <section class="lg:col-span-2">
+                        <h2 class="section-title">Certificat d'immatriculation</h2>
+                        <div class="grid gap-x-10 lg:grid-cols-2">
+                            {{ form_row(form.firstRegistrationDate) }}
+                            {{ form_row(form.currentRegistrationDate) }}
+                            {{ form_row(form.typeApprovalNumber) }}
+                            {{ form_row(form.variantType) }}
+                            {{ form_row(form.cnit) }}
+                            {{ form_row(form.euCategory) }}
+                            {{ form_row(form.nationalGenre) }}
+                            {{ form_row(form.bodyType) }}
+                        </div>
+                    </section>
                 </div>
-            </section>
+            </div>
 
-            <section class="card card-border bg-base-100 mb-6">
-                <div class="card-body">
-                    <h2 class="card-title text-base">Motorisation et masses</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6">
-                        <div class="field">{{ form_row(form.energy) }}</div>
-                        <div class="field">{{ form_row(form.engineDisplacement) }}</div>
-                        <div class="field">{{ form_row(form.netPowerKw) }}</div>
-                        <div class="field">{{ form_row(form.fiscalPower) }}</div>
-                        <div class="field">{{ form_row(form.co2Emissions) }}</div>
-                        <div class="field">{{ form_row(form.seatCount) }}</div>
-                        <div class="field">{{ form_row(form.unladenMass) }}</div>
-                        <div class="field">{{ form_row(form.maxLadenMass) }}</div>
-                        <div class="field">{{ form_row(form.maxCombinedMass) }}</div>
-                    </div>
-                </div>
-            </section>
+            <input type="radio" name="main_tab" class="tab" aria-label="Échéances" />
+            <div class="tab-content pt-6">
+                <p class="text-base-content/60">Échéances du véhicule : bientôt.</p>
+            </div>
 
-            <section class="card card-border bg-base-100 mb-6">
-                <div class="card-body">
-                    <h2 class="card-title text-base">Certificat d'immatriculation</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6">
-                        <div class="field">{{ form_row(form.firstRegistrationDate) }}</div>
-                        <div class="field">{{ form_row(form.currentRegistrationDate) }}</div>
-                        <div class="field">{{ form_row(form.typeApprovalNumber) }}</div>
-                        <div class="field">{{ form_row(form.variantType) }}</div>
-                        <div class="field">{{ form_row(form.cnit) }}</div>
-                        <div class="field">{{ form_row(form.euCategory) }}</div>
-                        <div class="field">{{ form_row(form.nationalGenre) }}</div>
-                        <div class="field">{{ form_row(form.bodyType) }}</div>
-                    </div>
-                </div>
-            </section>
-
+            <input type="radio" name="main_tab" class="tab" aria-label="Documents" />
+            <div class="tab-content pt-6">
+                <p class="text-base-content/60">Documents officiels et fichiers du véhicule : bientôt.</p>
+            </div>
         </div>
-
-        {# --- Documents : carte grise, assurance + GED (hors formulaire principal) --- #}
-        <input type="radio" name="main_tab" class="tab" aria-label="Documents" />
-        <div class="tab-content pt-6">
-            <p class="text-base-content/60">Documents officiels et fichiers du véhicule : bientôt.</p>
-        </div>
-
-        {# --- Échéances --- #}
-        <input type="radio" name="main_tab" class="tab" aria-label="Échéances" />
-        <div class="tab-content pt-6">
-            <p class="text-base-content/60">Échéances du véhicule : bientôt.</p>
-        </div>
-
     </div>
 
     {{ form_end(form) }}
@@ -128,7 +132,6 @@
             </form>
         </twig:block>
     </twig:Modal>
-
 {% endblock %}
 
 {% block magic_bar %}

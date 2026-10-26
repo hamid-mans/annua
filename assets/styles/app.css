@@ -1,6 +1,14 @@
 @import "tailwindcss";
 @source not "./daisyui{,*}.mjs";
 @plugin "./daisyui.mjs";
+@utility bg-dots {
+    background-color: var(--color-base-100);
+    background-image: radial-gradient(
+        color-mix(in oklab, var(--color-base-content) 12%, transparent) 1px,
+        transparent 1px
+    );
+    background-size: 20px 20px;
+}
 
 @custom-variant dark (&:where([data-theme="annua-dark"], [data-theme="annua-dark"] *));
 
@@ -88,12 +96,19 @@
 .field input:not(input[type="checkbox"]) { @apply w-full }
 .field select { @apply w-full }
 .field div { @apply flex flex-col w-full }
-input:not(input[type="checkbox"]):not(label input):not(.tab) { @apply input outline-0 }
+input:not(input[type="checkbox"]):not(label input):not(.tab):not([type="radio"]) { @apply input outline-0 }
 .field input[type="checkbox"] { @apply checkbox checkbox-sm }
 select { @apply select outline-0 }
 
 .table-div { @apply overflow-hidden rounded-box border border-base-300 }
-.table-div .table thead { @apply bg-primary/5 }
-.table-div .table tbody tr { @apply hover:bg-primary/2 cursor-pointer }
+.table-div .table thead { @apply bg-base-200 }
+.table-div .table tbody tr { @apply bg-base-100 hover:bg-base-100/50 cursor-pointer }
+
 .ux-pagination-tailwind { @apply mt-4 }
 .sheet { @apply border rounded-box border-base-300 w-full bg-base-100 p-5 mt-2 }
+
+
+.field-inline { @apply grid grid-cols-1 items-center gap-x-3 py-1 sm:grid-cols-[9rem_minmax(0,1fr)] }
+.field-inline > label { @apply text-sm }
+.section-title { @apply mb-2 text-lg }
+.smart-btn { @apply flex items-center gap-3 rounded-box border border-base-300 px-3 py-2 text-sm transition-colors hover:bg-base-200 }

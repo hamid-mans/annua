@@ -38,6 +38,7 @@ class VehicleType extends AbstractType
             ])
             ->add('status', EnumType::class, [
                 'label' => 'Statut',
+                'expanded' => true,
                 'class' => VehicleStatus::class,
                 'choice_label' => fn (VehicleStatus $s) => $s->label(),
             ])

@@ -31,7 +31,7 @@
         <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
     {% endif %}
 </head>
-<body class="flex min-h-screen flex-col bg-base-200 font-sans text-base-content antialiased">
+<body class="flex min-h-screen flex-col bg-base-200 font-sans text-base-content antialiased bg-dots">
 {{ component('Alert') }}
 {% set current_route = app.request.attributes.get('_route') %}
 
