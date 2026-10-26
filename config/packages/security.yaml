@@ -25,6 +25,10 @@ security:
                 # where to redirect after logout
                 # target: app_any_route
 
+            login_throttling:
+                max_attempts: 7
+                interval: '15 minutes'
+
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
@@ -43,6 +47,7 @@ security:
     access_control:
         - { path: ^/app(/|$), roles: [ROLE_DRIVER, ROLE_MANAGER] }
         - { path: ^/admin(/|$), roles: ROLE_ADMIN }
+        - { path: ^/_components(/|$), roles: [ ROLE_DRIVER, ROLE_MANAGER ] }
 
 when@test:
     security:

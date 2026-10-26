@@ -84,6 +84,16 @@
     @apply bg-base-300/40 font-medium text-base-content;
 }
 
-.field { @apply flex flex-col mb-2 }
-input:not(input[type="checkbox"]):not(label input) { @apply input outline-0 }
-input[type="checkbox"] { @apply checkbox checkbox-sm }
+.field { @apply flex flex-col mb-2 w-full }
+.field input:not(input[type="checkbox"]) { @apply w-full }
+.field select { @apply w-full }
+.field div { @apply flex flex-col w-full }
+input:not(input[type="checkbox"]):not(label input):not(.tab) { @apply input outline-0 }
+.field input[type="checkbox"] { @apply checkbox checkbox-sm }
+select { @apply select outline-0 }
+
+.table-div { @apply overflow-hidden rounded-box border border-base-300 }
+.table-div .table thead { @apply bg-primary/5 }
+.table-div .table tbody tr { @apply hover:bg-primary/2 cursor-pointer }
+.ux-pagination-tailwind { @apply mt-4 }
+.sheet { @apply border rounded-box border-base-300 w-full bg-base-100 p-5 mt-2 }

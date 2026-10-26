@@ -1,0 +1,35 @@
+<div {{ attributes }}>
+
+    <div class="field my-2">
+        <input type="text" data-model="debounce(300)|query" placeholder="Rechercher…">
+    </div>
+
+    <div class="table-div">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Immatriculation</th>
+                <th>Marque</th>
+                <th>Modèle</th>
+                <th>Couleur</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for vehicle in this.pagination %}
+                <a href="{{ path('app.vehicle.update', { id: vehicle.id  }) }}">
+                    <tr data-controller="row-link" data-action="click->row-link#click" data-row-link-url-value="{{ path('app.vehicle.update', { id: vehicle.id }) }}">
+                        <td>{{ vehicle.registrationNumber }}</td>
+                        <td>{{ vehicle.brand }}</td>
+                        <td>{{ vehicle.model }}</td>
+                        <td>{{ vehicle.color }}</td>
+                    </tr>
+                </a>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {{ ux_pagination(this.pagination, link_attributes: this.paginationLinkAttributes, theme: '@UXPagination/theme/tailwind.html.twig', show_info: false) }}
+
+
+</div>

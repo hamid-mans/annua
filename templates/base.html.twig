@@ -34,7 +34,13 @@
             </nav>
 
             <div class="flex items-center gap-2">
-                <a href="{{ path('app_login') }}" class="btn btn-ghost btn-sm">Se connecter</a>
+                {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                    <a href="{{ path('admin.index') }}" class="btn btn-ghost btn-sm">Administration</a>
+                {% elseif app.user and 'ROLE_USER' in app.user.roles %}
+                    <a href="{{ path('app.index') }}" class="btn btn-ghost btn-sm">Mon application</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="btn btn-ghost btn-sm">Se connecter</a>
+                {% endif %}
                 <a href="#contact" class="btn btn-primary btn-sm">Nous contacter</a>
             </div>
         </div>

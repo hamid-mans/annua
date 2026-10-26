@@ -31,10 +31,11 @@
         <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
     {% endif %}
 </head>
-<body class="min-h-screen bg-base-200 font-sans text-base-content antialiased">
+<body class="flex min-h-screen flex-col bg-base-200 font-sans text-base-content antialiased">
+{{ component('Alert') }}
 {% set current_route = app.request.attributes.get('_route') %}
 
-<header class="navbar sticky top-0 z-40 h-[65px] shrink-0 border-b border-base-300/70 bg-base-100 px-4 shadow-sm lg:px-6">
+<header class="navbar sticky top-0 z-40 h-[65px] shrink-0 border-b border-base-300/70 bg-base-100 px-4 shadow-xs lg:px-6">
     <div class="flex flex-none items-center gap-2">
         <div class="dropdown lg:hidden">
             <button type="button" tabindex="0" class="btn btn-ghost btn-square" aria-label="Ouvrir le menu">
@@ -59,8 +60,13 @@
 
     <nav class="hidden flex-1 items-center gap-1 lg:flex" aria-label="Navigation principale">
         <a href="{{ path('app.index') }}" class="top-nav-link {{ current_route == 'app.index' ? 'active' : '' }}">
-            {{ ux_icon('solar:home-smile-outline', {class: 'size-5'}) }}
+            {{ ux_icon('lucide:house', {class: 'size-5'}) }}
             <span>Accueil</span>
+        </a>
+
+        <a href="{{ path('app.vehicle.index') }}" class="top-nav-link {{ 'app.vehicle.' in current_route ? 'active' : '' }}">
+            {{ ux_icon('lucide:car', {class: 'size-5'}) }}
+            <span>Véhicules</span>
         </a>
     </nav>
 
@@ -89,10 +95,19 @@
 </header>
 
 <main class="relative w-full flex-1">
-    <div class="mx-auto w-full max-w-[1800px] p-4 sm:p-6 lg:p-8">
+    <div class="mx-auto w-full max-w-[1800px] p-4 sm:p-6 lg:px-9 lg:py-7">
         {% block body %}{% endblock %}
     </div>
 </main>
+
+{% set magic_bar = block('magic_bar') ?? '' %}
+{% if magic_bar|trim is not empty %}
+    <div class="sticky bottom-0 z-30 border-t border-base-300 bg-base-100/90 backdrop-blur">
+        <div class="mx-auto flex w-full max-w-[1800px] items-center gap-2 px-4 py-3 sm:px-6 lg:px-9">
+            {{ magic_bar|raw }}
+        </div>
+    </div>
+{% endif %}
 
 <script>
     (function () {

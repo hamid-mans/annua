@@ -6,8 +6,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Company;
 use App\Entity\User;
-use App\Form\CompanyType;
-use App\Form\UserType;
+use App\Form\Company\CompanyType;
+use App\Form\User\UserType;
 use App\Repository\CompanyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;

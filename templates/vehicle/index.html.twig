@@ -1,0 +1,51 @@
+{% extends 'app.base.html.twig' %}
+
+{% block title %}Véhicules{% endblock %}
+
+{% block body %}
+    <div class="flex items-center gap-2">
+        <button class="btn btn-primary" onclick="modal_new_vehicle.showModal()">
+            Nouveau
+        </button>
+
+        <p class="text-xl">
+            Liste des véhicules
+        </p>
+    </div>
+
+    <twig:VehiclesTable />
+
+
+    <twig:Modal id="modal_new_vehicle" title="Nouveau véhicule" :open="form.vars.submitted and not form.vars.valid">
+        <twig:block name="body">
+
+            {{ form_start(form, { attr: { id: 'form_create_vehicle' } }) }}
+            {{ form_errors(form) }}
+            <div class="field">
+                {{ form_row(form.registrationNumber) }}
+            </div>
+
+            <div class="field">
+                {{ form_row(form.category) }}
+            </div>
+
+            <div class="flex gap-6">
+                <div class="field">
+                    {{ form_row(form.brand) }}
+                </div>
+
+                <div class="field">
+                    {{ form_row(form.model) }}
+                </div>
+            </div>
+
+            {{ form_end(form) }}
+
+        </twig:block>
+
+        <twig:block name="actions">
+            <button type="submit" form="form_create_vehicle" class="btn btn-primary">Confirmer</button>
+        </twig:block>
+    </twig:Modal>
+
+{% endblock %}

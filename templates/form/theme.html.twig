@@ -1,0 +1,16 @@
+{% use 'form_div_layout.html.twig' %}
+
+{% block form_row %}
+    <div>
+        {{ form_label(form) }}
+        {{ form_widget(form) }}
+        {{ form_errors(form) }}
+        {{ form_help(form) }}
+    </div>
+{% endblock %}
+
+{% block form_errors %}
+    {% for error in errors %}
+        <p class="mt-1 text-sm text-error">{{ error.message }}</p>
+    {% endfor %}
+{% endblock %}
