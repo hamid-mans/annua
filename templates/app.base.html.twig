@@ -34,62 +34,86 @@
 <body class="flex min-h-screen flex-col bg-base-200 font-sans text-base-content antialiased bg-dots">
 {% set current_route = app.request.attributes.get('_route') %}
 
-<header class="navbar sticky top-0 z-40 h-[65px] shrink-0 border-b border-base-300/70 bg-base-100 px-4 shadow-xs lg:px-6">
-    <div class="flex flex-none items-center gap-2">
-        <div class="dropdown lg:hidden">
-            <button type="button" tabindex="0" class="btn btn-ghost btn-square" aria-label="Ouvrir le menu">
-                <svg xmlns="http://www.w3.org/2000/svg" class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
-            </button>
-            <ul tabindex="0" class="menu dropdown-content z-50 mt-3 w-56 rounded-box border border-base-300/70 bg-base-100 p-2 shadow-xl">
+{% set current_route = app.request.attributes.get('_route') ?? '' %}
+{% set nav_items = [
+    {label: 'Accueil', icon: 'lucide:house', route: 'app.index', active: current_route == 'app.index'},
+    {label: 'Véhicules', icon: 'lucide:car', route: 'app.vehicle.index', active: current_route starts with 'app.vehicle.'},
+    {label: 'Échéances', icon: 'lucide:calendar-clock', route: null, active: false},
+    {label: 'Conducteurs', icon: 'lucide:users', route: null, active: false},
+    {label: 'Paramètres', icon: 'lucide:settings-2', route: null, active: false},
+] %}
+
+<header class="sticky top-0 z-40 flex h-12 shrink-0 items-stretch gap-8 border-b border-base-300/70 bg-base-100 px-4 lg:px-6">
+
+    {# Menu mobile #}
+    <div class="dropdown flex items-center lg:hidden">
+        <button type="button" tabindex="0" class="btn btn-ghost btn-sm btn-square" aria-label="Ouvrir le menu">
+            {{ ux_icon('lucide:menu', {class: 'size-5'}) }}
+        </button>
+        <ul tabindex="0" class="menu dropdown-content top-full z-50 mt-1 w-56 rounded-box border border-base-300 bg-base-100 p-1.5 shadow-lg">
+            {% for item in nav_items %}
                 <li>
-                    <a href="{{ path('app.index') }}" class="top-nav-link {{ current_route == 'app.index' ? 'active' : '' }}">
-                        {{ ux_icon('solar:home-smile-outline', {class: 'size-5'}) }}
-                        <span>Accueil</span>
+                    <a href="{{ item.route ? path(item.route) : '#' }}" class="{{ item.active ? 'menu-active' }}">
+                        {{ ux_icon(item.icon, {class: 'size-4'}) }}
+                        {{ item.label }}
                     </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {# Logo #}
+    <a href="{{ path('app.index') }}" class="flex items-center transition-opacity hover:opacity-80" aria-label="Annua - Accueil">
+        {{ ux_icon('annua', {class: 'h-20 w-auto', 'aria-label': 'Annua'}) }}
+    </a>
+
+    {# Navigation principale #}
+    <nav class="hidden items-stretch gap-6 lg:flex" aria-label="Navigation principale">
+        {% for item in nav_items %}
+            <a href="{{ item.route ? path(item.route) : '#' }}"
+               class="top-nav-link {{ item.active ? 'active' }}"
+                {{ item.active ? 'aria-current="page"' }}>
+                {{ item.label }}
+            </a>
+        {% endfor %}
+    </nav>
+
+    {# Menu utilisateur #}
+    <div class="dropdown dropdown-end ml-auto flex items-center">
+        <div tabindex="0" role="button" class="flex cursor-pointer items-center gap-2 text-sm text-base-content/70 transition-colors hover:text-base-content">
+            <span class="hidden sm:inline">{{ app.user.firstname }} {{ app.user.lastname }}</span>
+            <span class="flex size-7 items-center justify-center rounded-full bg-base-content/10 text-xs font-medium text-base-content">
+                {{ (app.user.firstname|default('')|first ~ app.user.lastname|default('')|first)|upper }}
+            </span>
+            {{ ux_icon('lucide:chevron-down', {class: 'size-3.5'}) }}
+        </div>
+
+        <div tabindex="0" class="dropdown-content top-full z-50 mt-1 w-60 rounded-box border border-base-300 bg-base-100 p-1.5 shadow-lg">
+            <div class="mb-1 border-b border-base-300 px-3 pb-2 pt-1.5">
+                <p class="text-sm font-medium">{{ app.user.firstname }} {{ app.user.lastname }}</p>
+                <p class="text-xs text-base-content/50">{{ app.user.company.name }}</p>
+            </div>
+
+            <ul class="menu w-full p-0">
+                <li>
+                    <a href="#">{{ ux_icon('lucide:user-cog', {class: 'size-4 opacity-60'}) }} Mes réglages</a>
+                </li>
+                <li>
+                    <label class="flex justify-between">
+                        <span class="flex items-center gap-2">{{ ux_icon('lucide:moon', {class: 'size-4 opacity-60'}) }} Mode sombre</span>
+                        <input type="checkbox" id="theme-toggle" class="toggle toggle-xs" aria-label="Mode sombre">
+                    </label>
+                </li>
+            </ul>
+
+            <div class="my-1 border-t border-base-300"></div>
+
+            <ul class="menu w-full p-0">
+                <li>
+                    <a data-turbo="false" href="{{ path('app_logout') }}" class="text-error">{{ ux_icon('lucide:log-out', {class: 'size-4'}) }} Déconnexion</a>
                 </li>
             </ul>
         </div>
-
-        <a href="{{ path('app.index') }}" class="ml-2 flex items-center transition-opacity hover:opacity-80 lg:ml-0 lg:mr-8" aria-label="Annua - Accueil">
-            <img src="{{ asset('images/Annua-White-BG.png') }}" class="h-9 w-auto mix-blend-multiply dark:mix-blend-screen dark:invert" alt="Logo Annua">
-        </a>
-    </div>
-
-    <nav class="hidden flex-1 items-center gap-1 lg:flex" aria-label="Navigation principale">
-        <a href="{{ path('app.index') }}" class="top-nav-link {{ current_route == 'app.index' ? 'active' : '' }}">
-            {{ ux_icon('lucide:house', {class: 'size-5'}) }}
-            <span>Accueil</span>
-        </a>
-
-        <a href="{{ path('app.vehicle.index') }}" class="top-nav-link {{ 'app.vehicle.' in current_route ? 'active' : '' }}">
-            {{ ux_icon('lucide:car', {class: 'size-5'}) }}
-            <span>Véhicules</span>
-        </a>
-    </nav>
-
-    <div class="ml-auto flex flex-none items-center gap-2">
-        <form role="search" class="hidden sm:block">
-            <label class="input input-sm w-full max-w-56 bg-base-200">
-                <svg xmlns="http://www.w3.org/2000/svg" class="size-4 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <circle cx="11" cy="11" r="7"/>
-                    <path stroke-linecap="round" d="m20 20-3.5-3.5"/>
-                </svg>
-                <input type="search" name="search" id="search" placeholder="Rechercher" aria-label="Rechercher">
-            </label>
-        </form>
-
-        <label class="swap swap-rotate btn btn-ghost btn-circle btn-sm" title="Changer de thème">
-            <input type="checkbox" id="theme-toggle" aria-label="Basculer entre thème clair et sombre">
-            <svg class="swap-off size-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                <circle cx="12" cy="12" r="4"/>
-                <path stroke-linecap="round" d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4m11.4-11.4 1.4-1.4"/>
-            </svg>
-            <svg class="swap-on size-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>
-            </svg>
-        </label>
     </div>
 </header>
 
