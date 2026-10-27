@@ -15,9 +15,9 @@
             </ul>
         </div>
 
-        <div class="join shadow rounded-box">
+        <div class="border border-base-300 rounded-box">
             {% for choice in form.status %}
-                {{ form_widget(choice, {attr: {class: 'join-item btn btn-sm border', 'aria-label': choice.vars.label}}) }}
+                {{ form_widget(choice, {attr: {class: 'btn', 'aria-label': choice.vars.label}}) }}
             {% endfor %}
         </div>
     </div>
