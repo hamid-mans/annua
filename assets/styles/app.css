@@ -8,6 +8,12 @@
     );
     background-size: 14px 14px;
 }
+@utility bg-grid {
+    background-image:
+        linear-gradient(to right, color-mix(in oklab, var(--color-base-content) 4%, transparent) 1px, transparent 1px),
+        linear-gradient(to bottom, color-mix(in oklab, var(--color-base-content) 4%, transparent) 1px, transparent 1px);
+    background-size: 82px 82px;
+}
 
 @custom-variant dark (&:where([data-theme="annua-dark"], [data-theme="annua-dark"] *));
 
@@ -33,7 +39,7 @@
     --color-success: #10b940;
     --color-success-content: #ffffff;
     --color-warning: #e08a54;
-    --color-warning-content: #ffffff;
+    --color-warning-content: #09090b;
     --color-error: #ef4444;
     --color-error-content: #ffffff;
     --radius-selector: 0.5rem;
@@ -51,22 +57,22 @@
     default: false;
     prefersdark: true;
     color-scheme: "dark";
-    --color-base-100: #09090b;
-    --color-base-200: #18181b;
-    --color-base-300: #27272a;
-    --color-base-content: #f4f4f5;
-    --color-primary: #fafafa;
-    --color-primary-content: #09090b;
+    --color-base-100: oklch(21% 0.012 265);
+    --color-base-200: oklch(17% 0.010 265);
+    --color-base-300: oklch(14% 0.010 265);
+    --color-base-content: oklch(92% 0.010 265);
+    --color-primary: oklch(90% 0.010 265);
+    --color-primary-content: oklch(20% 0.012 265);
     --color-secondary: #2c2c2f;
     --color-secondary-content: #f4f4f5;
     --color-accent: #4a6be0;
     --color-accent-content: #ffffff;
-    --color-neutral: #18181b;
-    --color-neutral-content: #f4f4f5;
+    --color-neutral: oklch(27% 0.012 265);
+    --color-neutral-content: oklch(92% 0.010 265);
     --color-info: #38bdf8;
     --color-info-content: #09090b;
-    --color-success: #0c862f;
-    --color-success-content: #ffffff;
+    --color-success: #22c55e;
+    --color-success-content: #09090b;
     --color-warning: #dc973f;
     --color-warning-content: #09090b;
     --color-error: #f87171;
@@ -91,24 +97,24 @@ input:not(input[type="checkbox"]):not(label input):not(.tab):not([type="radio"])
 .field input[type="checkbox"] { @apply checkbox checkbox-sm }
 select { @apply select outline-0 }
 
-.table-div { @apply overflow-hidden rounded-box border border-base-300 }
+.table-div { @apply overflow-hidden rounded-box border border-base-content/10 }
 .table-div .table thead { @apply bg-base-200 }
 .table-div .table tbody tr { @apply bg-base-100 hover:bg-base-100/50 cursor-pointer }
 
 .ux-pagination-tailwind { @apply mt-4 }
-.sheet { @apply border rounded-box border-base-300 w-full bg-base-100 p-5 mt-2 }
+.sheet { @apply border rounded-box border-base-content/10 w-full bg-base-100 p-5 mt-2 }
 
 
 .field-inline { @apply grid grid-cols-1 items-center gap-x-3 py-1 sm:grid-cols-[9rem_minmax(0,1fr)] }
 .field-inline > label { @apply text-sm }
 .section-title { @apply mb-2 text-lg }
-.smart-btn { @apply flex items-center gap-3 rounded-box border border-base-300 px-3 py-2 text-sm transition-colors hover:bg-base-200 }
+.smart-btn { @apply flex items-center gap-3 rounded-box border border-base-content/10 px-3 py-2 text-sm transition-colors hover:bg-base-200 }
 
-.dock-separator { @apply mx-1 h-5 w-px bg-base-300 }
+.dock-separator { @apply mx-1 h-5 w-px bg-base-content/10 }
 
 /* MAGIC BAR + TOAST */
 .magic-bar {
-    @apply flex max-w-full items-center gap-1 rounded-2xl border border-base-300 bg-base-100/80 p-2.5 backdrop-blur;
+    @apply flex max-w-full items-center gap-1 rounded-2xl border border-base-content/10 bg-base-100/80 p-2.5 backdrop-blur;
 }
 
 .magic-bar-message {
@@ -144,6 +150,3 @@ select { @apply select outline-0 }
 .top-nav-link.active {
     @apply border-base-content font-medium text-base-content;
 }
-
-
-
