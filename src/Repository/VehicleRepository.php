@@ -16,7 +16,7 @@ class VehicleRepository extends ServiceEntityRepository
         parent::__construct($registry, Vehicle::class);
     }
 
-    public function findAllBySearch($company, $search): \Doctrine\ORM\QueryBuilder
+    public function findAllBySearch($company, $search, $statuses): \Doctrine\ORM\QueryBuilder
     {
         $qb = $this->createQueryBuilder('v');
 
@@ -27,11 +27,18 @@ class VehicleRepository extends ServiceEntityRepository
             ->andWhere($qb->expr()->orX(
                 $qb->expr()->like('LOWER(v.brand)', ':search'),
                 $qb->expr()->like('LOWER(v.model)', ':search'),
+                $qb->expr()->like('LOWER(v.registrationNumber)', ':search'),
             ))
             ->setParameter('search', '%' . $escaped . '%')
             ->setParameter('company', $company)
-            ->orderBy('v.brand', 'ASC')
+            ->orderBy('v.registrationNumber', 'ASC')
+            ->addOrderBy('v.brand', 'ASC')
             ->addOrderBy('v.model', 'ASC');
+
+        if ($statuses !== []) {
+            $qb->andWhere('v.status IN (:statuses)')
+                ->setParameter('statuses', $statuses);
+        }
 
         return $qb;
     }

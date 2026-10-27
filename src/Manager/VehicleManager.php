@@ -23,9 +23,9 @@ final readonly class VehicleManager
         $this->user = $this->security->getUser();
     }
 
-    public function getVehiclesSearch(string $search): QueryBuilder
+    public function getVehiclesSearch(string $search, $status): QueryBuilder
     {
-        return $this->vehicleRepository->findAllBySearch($this->user->getCompany(), $search);
+        return $this->vehicleRepository->findAllBySearch($this->user->getCompany(), $search, $status);
     }
 
     public function getVehicle(int $id): Vehicle

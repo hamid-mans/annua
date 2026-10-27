@@ -1,7 +1,18 @@
 <div {{ attributes }}>
 
-    <div class="field my-2">
-        <input type="text" data-model="debounce(300)|query" placeholder="Rechercher…">
+    <div class="mb-3 flex flex-wrap items-start gap-2 mt-4">
+        <div class="field flex-1">
+            <input type="search" data-model="debounce(300)|query" placeholder="Rechercher…">
+        </div>
+
+        <div class="" role="group" aria-label="Filtrer par statut">
+            {% for status in enum_cases('App\\Enum\\VehicleStatus') %}
+                <label class="group inline-flex h-9 cursor-pointer select-none items-center gap-1.5 rounded-box border border-base-300 bg-base-100 px-3 text-sm text-base-content/70 transition-colors hover:border-base-content/40 has-checked:border-base-content has-checked:bg-base-content has-checked:text-base-100 has-focus-visible:outline-2 has-focus-visible:outline-offset-2">
+                    <input type="checkbox" class="sr-only" data-model="statuses[]" value="{{ status.value }}" {{ status.value in statuses ? 'checked' }}>
+                    {{ status.label }}
+                </label>
+            {% endfor %}
+        </div>
     </div>
 
     <div class="table-div">
@@ -9,9 +20,13 @@
             <thead>
             <tr>
                 <th>Immatriculation</th>
+                <th>Catégorie</th>
                 <th>Marque</th>
                 <th>Modèle</th>
                 <th>Couleur</th>
+                <th>Année</th>
+                <th>Kilométrage</th>
+                <th>Conducteur</th>
             </tr>
             </thead>
             <tbody>
@@ -19,9 +34,13 @@
                 <a href="{{ path('app.vehicle.update', { id: vehicle.id  }) }}">
                     <tr data-controller="row-link" data-action="click->row-link#click" data-row-link-url-value="{{ path('app.vehicle.update', { id: vehicle.id }) }}">
                         <td>{{ vehicle.registrationNumber }}</td>
+                        <td>{{ vehicle.category.label }}</td>
                         <td>{{ vehicle.brand }}</td>
                         <td>{{ vehicle.model }}</td>
                         <td>{{ vehicle.color }}</td>
+                        <td>{{ vehicle.firstRegistrationDate|date('Y') }}</td>
+                        <td>{{ '#' }}</td>
+                        <td>{{ '#' }}</td>
                     </tr>
                 </a>
             {% endfor %}

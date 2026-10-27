@@ -1,4 +1,4 @@
-<div id="g2s-toast-container" class="toast toast-top toast-center z-[9999] pointer-events-none p-4 gap-3" style="top: 20px;">
+<div id="g2s-toast-container" class="toast toast-center z-[9999] pointer-events-none p-4 gap-3" style="top: 20px;">
     {% for type, messages in app.flashes %}
         {% for message in messages %}
             <div class="alert alert-sm bg-base-100 border border-base-300 border-t-2 {{ type == 'success' ? 'border-t-success' : 'border-t-error' }} shadow-lg rounded-box min-w-[320px] max-w-[450px] pointer-events-auto flex items-center gap-3 p-4 g2s-toast-anim animate-fade-in" data-g2s-toast>

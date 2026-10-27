@@ -2,12 +2,11 @@
 @source not "./daisyui{,*}.mjs";
 @plugin "./daisyui.mjs";
 @utility bg-dots {
-    background-color: var(--color-base-100);
     background-image: radial-gradient(
-        color-mix(in oklab, var(--color-base-content) 12%, transparent) 1px,
+        color-mix(in oklab, var(--color-base-content) 10%, transparent) 1px,
         transparent 1px
     );
-    background-size: 20px 20px;
+    background-size: 14px 14px;
 }
 
 @custom-variant dark (&:where([data-theme="annua-dark"], [data-theme="annua-dark"] *));

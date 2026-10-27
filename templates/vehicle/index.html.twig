@@ -4,10 +4,6 @@
 
 {% block body %}
     <div class="flex items-center gap-2">
-        <button class="btn btn-primary" onclick="modal_new_vehicle.showModal()">
-            Nouveau
-        </button>
-
         <p class="text-xl">
             Liste des véhicules
         </p>
@@ -48,4 +44,15 @@
         </twig:block>
     </twig:Modal>
 
+{% endblock %}
+
+{% block magic_bar %}
+
+    <button class="btn btn-primary" onclick="modal_new_vehicle.showModal()">
+        Nouveau
+    </button>
+
+    <span class="dock-separator"></span>
+
+    <twig:partials:PrintButton />
 {% endblock %}
