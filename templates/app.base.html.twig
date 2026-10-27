@@ -32,7 +32,6 @@
     {% endif %}
 </head>
 <body class="flex min-h-screen flex-col bg-base-200 font-sans text-base-content antialiased bg-dots">
-{{ component('Alert') }}
 {% set current_route = app.request.attributes.get('_route') %}
 
 <header class="navbar sticky top-0 z-40 h-[65px] shrink-0 border-b border-base-300/70 bg-base-100 px-4 shadow-xs lg:px-6">
@@ -100,11 +99,27 @@
     </div>
 </main>
 
+
+{% set flashes = app.flashes %}
+{% set flash_type = flashes|keys|first %}
+{% set flash_message = flash_type ? flashes[flash_type]|first : null %}
+
 <div class="pointer-events-none sticky bottom-0 z-30 flex justify-center px-4 pb-4 pt-2">
-    <div class="transition-transform duration-200 ease-out hover:scale-[1.05] pointer-events-auto flex max-w-full items-center gap-1 rounded-2xl border border-base-300 bg-base-100/80 py-2.5 px-2.5 shadow-lg backdrop-blur">
+    <div
+        data-controller="magic-bar"
+        data-magic-bar-type-value="{{ flash_type }}"
+        data-action="turbo:before-cache@document->magic-bar#reset"
+        class="transition-transform duration-200 ease-out hover:scale-[1.05] pointer-events-auto flex max-w-full items-center gap-1 rounded-2xl border border-base-300 bg-base-100/80 py-2.5 px-2.5 shadow-lg backdrop-blur">
         {% block magic_bar %}
             <i>Aucune action possible ici...</i>
         {% endblock %}
+
+        {% if flash_message %}
+            <div class="magic-bar magic-bar-message" role="status">
+                {{ ux_icon(flash_type == 'error' ? 'lucide:circle-x' : 'lucide:circle-check', {class: 'size-4'}) }}
+                {{ flash_message|trans }}
+            </div>
+        {% endif %}
     </div>
 </div>
 
@@ -123,6 +138,7 @@
             } catch (e) {}
         });
     })();
+
 </script>
 </body>
 </html>

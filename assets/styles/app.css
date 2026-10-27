@@ -113,3 +113,34 @@ select { @apply select outline-0 }
 .smart-btn { @apply flex items-center gap-3 rounded-box border border-base-300 px-3 py-2 text-sm transition-colors hover:bg-base-200 }
 
 .dock-separator { @apply mx-1 h-5 w-px bg-base-300 }
+
+
+
+@layer components {
+    .magic-bar {
+        @apply flex max-w-full items-center gap-1 rounded-2xl border border-base-300 bg-base-100/80 p-2.5 backdrop-blur;
+    }
+
+    .magic-bar-message {
+        @apply pointer-events-none absolute bottom-full left-1/2 mb-2 -translate-x-1/2 translate-y-2 gap-2 whitespace-nowrap px-4 text-sm opacity-0 transition duration-300 ease-out;
+    }
+
+    [data-flash] .magic-bar-message { @apply translate-y-0 opacity-100 }
+    .magic-bar-message svg { color: var(--flash-color) }
+
+    [data-flash="success"] { --flash-color: var(--color-success) }
+    [data-flash="error"] { --flash-color: var(--color-error) }
+
+    [data-flash] > .magic-bar {
+        animation: magic-bar-glow 2s ease-out;
+    }
+}
+
+@keyframes magic-bar-glow {
+    0%, 100% { box-shadow: 0 0 0 0 transparent; }
+    50% {
+        box-shadow:
+            0 0 5px 1px color-mix(in oklab, var(--flash-color) 40%, transparent),
+            0 0 5px color-mix(in oklab, var(--flash-color) 20%, transparent);
+    }
+}
