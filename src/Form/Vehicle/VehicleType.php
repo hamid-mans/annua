@@ -152,6 +152,9 @@ class VehicleType extends AbstractType
                 'label' => 'Places assises (S.1)',
                 'required' => false,
             ])
+            ->add('insuranceNumber', TextType::class, [
+                'label' => "Numéro d'assurance"
+            ])
         ;
     }
 

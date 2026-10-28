@@ -102,6 +102,9 @@ class Vehicle //implements CompanyOwnedInterface
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $activities;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $insuranceNumber = null;
+
     public function __construct()
     {
         $this->activities = new ArrayCollection();
@@ -438,6 +441,18 @@ class Vehicle //implements CompanyOwnedInterface
                 $activity->setVehicle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getInsuranceNumber(): ?string
+    {
+        return $this->insuranceNumber;
+    }
+
+    public function setInsuranceNumber(string $insuranceNumber): static
+    {
+        $this->insuranceNumber = $insuranceNumber;
 
         return $this;
     }
