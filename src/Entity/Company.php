@@ -28,9 +28,16 @@ class Company
     #[ORM\OrderBy(['email' => 'ASC'])]
     private Collection $users;
 
+    /**
+     * @var Collection<int, Activities>
+     */
+    #[ORM\OneToMany(targetEntity: Activities::class, mappedBy: 'company', orphanRemoval: true)]
+    private Collection $activities;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->activities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -74,6 +81,36 @@ class Company
             // set the owning side to null (unless already changed)
             if ($user->getCompany() === $this) {
                 $user->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Activities>
+     */
+    public function getActivities(): Collection
+    {
+        return $this->activities;
+    }
+
+    public function addActivity(Activities $activity): static
+    {
+        if (!$this->activities->contains($activity)) {
+            $this->activities->add($activity);
+            $activity->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActivity(Activities $activity): static
+    {
+        if ($this->activities->removeElement($activity)) {
+            // set the owning side to null (unless already changed)
+            if ($activity->getCompany() === $this) {
+                $activity->setCompany(null);
             }
         }
 

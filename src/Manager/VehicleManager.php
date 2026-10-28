@@ -2,6 +2,7 @@
 
 namespace App\Manager;
 
+use App\Entity\User;
 use App\Entity\Vehicle;
 use App\Enum\VehicleStatus;
 use App\Repository\VehicleRepository;
@@ -13,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final readonly class VehicleManager
 {
-    private UserInterface $user;
+    private User $user;
     public function __construct(
         private VehicleRepository $vehicleRepository,
         private Security $security,

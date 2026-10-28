@@ -87,10 +87,11 @@
     --noise: 0;
 }
 
-.input:focus-within { @apply outline-0 }
+.input:focus-within{ @apply outline-0 }
 
 .field { @apply flex flex-col mb-2 w-full }
 .field input:not(input[type="checkbox"]) { @apply w-full }
+.field textarea { @apply textarea w-full outline-0 }
 .field select { @apply w-full }
 .field div { @apply flex flex-col w-full }
 input:not(input[type="checkbox"]):not(label input):not(.tab):not([type="radio"]) { @apply input outline-0 }

@@ -18,9 +18,9 @@
                     </ul>
                 </div>
 
-                <div class="border border-base-content/10 rounded-box">
+                <div class="border border-base-content/10 rounded-box bg-base-100">
                     {% for choice in form.status %}
-                        {{ form_widget(choice, {attr: {class: 'btn', 'aria-label': choice.vars.label}}) }}
+                        {{ form_widget(choice, {attr: {class: 'btn bg-base-100 text-primary', 'aria-label': choice.vars.label}}) }}
                     {% endfor %}
                 </div>
             </div>
@@ -141,10 +141,56 @@
         <aside class="w-full lg:w-80 shrink-0">
             <h2 class="flex items-center text-xl h-10 mb-3">Fil d'activité</h2>
 
-            <div class="sheet">
+            <div class="sheet flex flex-col gap-5">
+    <button class="btn btn-sm btn-primary" onclick="modal_create_activities.showModal()">
+        {{ ux_icon('lucide:plus', {class: 'size-4'}) }} Note
+    </button>
 
-            </div>
+    <ol>
+        {% for activity in vehicle.activities %}
+            {% set operator = activity.operator %}
+            <li class="relative flex gap-3 pb-5 last:pb-0">
+                {% if not loop.last %}
+                    <span class="absolute left-3.5 top-8 bottom-0 w-px bg-base-content/10" aria-hidden="true"></span>
+                {% endif %}
+
+                <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-base-content/10 text-xs font-medium">
+                    {{ operator ? (operator.firstname|first ~ operator.lastname|first)|upper : ux_icon('lucide:bot', {class: 'size-4'}) }}
+                </span>
+
+                <div class="min-w-0 flex-1">
+                    <p class="text-sm leading-7">
+                        <span class="font-medium">{{ operator ? operator.firstname ~ ' ' ~ operator.lastname : 'Système' }}</span>
+                        <span class="text-base-content/60">a ajouté une note</span>
+                    </p>
+                    <time class="block text-xs text-base-content/50" datetime="{{ activity.createdAt|date('c') }}">
+                        {{ activity.createdAt|date('d/m/Y à H:i') }}
+                    </time>
+                    <div class="mt-2 rounded-box bg-base-200 px-3 py-2 text-sm break-words">
+                        {{ activity.note|nl2br }}
+                    </div>
+                </div>
+            </li>
+        {% else %}
+            <li class="py-6 text-center text-sm text-base-content/60">Aucune activité pour l'instant</li>
+        {% endfor %}
+    </ol>
+</div>
         </aside>
+
+		<twig:Modal title="Nouvelle activité" id="modal_create_activities">
+			<twig:block name="body">
+				{{ form_start(activitiesForm, { attr: {'id': 'form-create-activities'} }) }}
+				<div class="field">
+					{{ form_row(activitiesForm.note) }}
+				</div>
+			{{ form_end(activitiesForm) }}
+			</twig:block>
+
+			<twig:block name="actions">
+				<button type="submit" form="form-create-activities" class="btn btn-primary">Envoyer</button>
+			</twig:block>
+		</twig:Modal>
     </div>
 {% endblock %}
 

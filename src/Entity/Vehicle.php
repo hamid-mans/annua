@@ -6,6 +6,8 @@ use App\Enum\VehicleCategory;
 use App\Enum\VehicleEnergy;
 use App\Enum\VehicleStatus;
 use App\Repository\VehicleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -92,6 +94,18 @@ class Vehicle //implements CompanyOwnedInterface
 
     #[ORM\Column(enumType: Vehicle::class)]
     private ?VehicleStatus $status = VehicleStatus::Active;
+
+    /**
+     * @var Collection<int, Activities>
+     */
+    #[ORM\OneToMany(targetEntity: Activities::class, mappedBy: 'vehicle', orphanRemoval: true)]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
+    private Collection $activities;
+
+    public function __construct()
+    {
+        $this->activities = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -394,6 +408,36 @@ class Vehicle //implements CompanyOwnedInterface
     public function setStatus(VehicleStatus $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Activities>
+     */
+    public function getActivities(): Collection
+    {
+        return $this->activities;
+    }
+
+    public function addActivity(Activities $activity): static
+    {
+        if (!$this->activities->contains($activity)) {
+            $this->activities->add($activity);
+            $activity->setVehicle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActivity(Activities $activity): static
+    {
+        if ($this->activities->removeElement($activity)) {
+            // set the owning side to null (unless already changed)
+            if ($activity->getVehicle() === $this) {
+                $activity->setVehicle(null);
+            }
+        }
 
         return $this;
     }

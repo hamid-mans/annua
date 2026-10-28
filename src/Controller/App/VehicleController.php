@@ -2,7 +2,11 @@
 
 namespace App\Controller\App;
 
+use App\Manager\ActivitiesManager;
+use App\Entity\Activities;
 use App\Entity\Vehicle;
+use App\Enum\ActivitiesType as EnumActivitiesType;
+use App\Form\ActivitiesType;
 use App\Form\Vehicle\CreateVehicleType;
 use App\Form\Vehicle\VehicleType;
 use App\Manager\VehicleManager;
@@ -51,7 +55,8 @@ final class VehicleController extends AbstractController
     #[Route('/{id<\d+>}', name: 'update', methods: ['GET', 'POST'])]
     public function update(
         int $id,
-        Request $request
+        Request $request,
+        ActivitiesManager $activitiesManager
     ): Response
     {
         $vehicle = $this->vehicleManager->getVehicle($id);
@@ -67,9 +72,25 @@ final class VehicleController extends AbstractController
             return $this->redirectToRoute('app.vehicle.update', ['id' => $vehicle->getId()], Response::HTTP_SEE_OTHER);
         }
 
+        $activies = new Activities();
+        $activitiesForm = $this->createForm(ActivitiesType::class, $activies);
+        $activitiesForm->handleRequest($request);
+
+        if($activitiesForm->isSubmitted() && $activitiesForm->isValid())
+        {
+            $activitiesManager->storeActivities(EnumActivitiesType::Note, $vehicle, $activies);
+
+            $this->addFlash('success', 'Activité créée !');
+
+            return $this->redirectToRoute('app.vehicle.update', [
+                'id' => $vehicle->getId()
+            ], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('vehicle/update.html.twig', [
             'vehicle' => $vehicle,
             'form' => $vehicleForm,
+            'activitiesForm' => $activitiesForm
         ]);
     }
 
