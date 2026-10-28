@@ -20,11 +20,11 @@
             <thead>
             <tr>
                 <th>Immatriculation</th>
-                <th>Catégorie</th>
                 <th>Marque</th>
                 <th>Modèle</th>
                 <th>Couleur</th>
                 <th>Année</th>
+                <th>Catégorie</th>
                 <th>Kilométrage</th>
                 <th>Conducteur</th>
             </tr>
@@ -33,10 +33,10 @@
             {% for vehicle in this.pagination %}
                 <tr data-controller="row-link" data-action="click->row-link#click" data-row-link-url-value="{{ path('app.vehicle.update', { id: vehicle.id }) }}">
                     <td>{{ vehicle.registrationNumber }}</td>
-                    <td>{{ vehicle.category.label }}</td>
                     <td>{{ vehicle.brand }}</td>
                     <td>{{ vehicle.model }}</td>
                     <td>{{ vehicle.color }}</td>
+                    <td>{{ vehicle.category.label }}</td>
                     <td>{{ vehicle.firstRegistrationDate ? vehicle.firstRegistrationDate|date('Y') : '—' }}</td>
                     <td>{{ '#' }}</td>
                     <td>{{ '#' }}</td>
