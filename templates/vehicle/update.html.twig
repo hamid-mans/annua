@@ -1,14 +1,13 @@
 {% extends 'app.base.html.twig' %}
-{% form_theme form 'form/_inline_row.html.twig' %}
 
 {% block title(vehicle.registrationNumber) %}
-    
+
 {% block body %}
-    
+
     <div class="flex flex-col lg:flex-row gap-6">
         <main class="flex-1 min-w-0">
             {{ form_start(form, {attr: {id: 'vehicle-form'}}) }}
-            
+
             {# Barre de contrôle : fil d'Ariane + statut #}
             <div class="mb-3 h-10 flex flex-wrap items-center justify-between gap-3">
                 <div class="breadcrumbs p-0 text-sm">
@@ -62,44 +61,33 @@
                 <div class="tabs tabs-border">
                     <input type="radio" name="main_tab" class="tab" aria-label="Fiche" checked />
                     <div class="tab-content pt-4">
-                        <div class="grid gap-x-10 gap-y-6 lg:grid-cols-2">
-                            <section>
-                                <h2 class="section-title">Identification</h2>
-                                {{ form_row(form.registrationNumber) }}
-                                {{ form_row(form.vin) }}
-                                {{ form_row(form.category) }}
-                                {{ form_row(form.brand) }}
-                                {{ form_row(form.model) }}
-                                {{ form_row(form.color) }}
-                            </section>
-
-                            <section>
-                                <h2 class="section-title">Motorisation et masses</h2>
-                                {{ form_row(form.energy) }}
-                                {{ form_row(form.engineDisplacement) }}
-                                {{ form_row(form.netPowerKw) }}
-                                {{ form_row(form.fiscalPower) }}
-                                {{ form_row(form.co2Emissions) }}
-                                {{ form_row(form.seatCount) }}
-                                {{ form_row(form.unladenMass) }}
-                                {{ form_row(form.maxLadenMass) }}
-                                {{ form_row(form.maxCombinedMass) }}
-                            </section>
-
-                            <section class="lg:col-span-2">
-                                <h2 class="section-title">Certificat d'immatriculation</h2>
-                                <div class="grid gap-x-10 lg:grid-cols-2">
-                                    {{ form_row(form.firstRegistrationDate) }}
-                                    {{ form_row(form.currentRegistrationDate) }}
-                                    {{ form_row(form.typeApprovalNumber) }}
-                                    {{ form_row(form.variantType) }}
-                                    {{ form_row(form.cnit) }}
-                                    {{ form_row(form.euCategory) }}
-                                    {{ form_row(form.nationalGenre) }}
-                                    {{ form_row(form.bodyType) }}
+                        <section>
+                            <h2 class="section-title">Identification</h2>
+                            <div class="lg:flex gap-6">
+                                <div class="field">
+                                    {{ form_row(form.registrationNumber) }}
                                 </div>
-                            </section>
-                        </div>
+                                <div class="field">
+                                    {{ form_row(form.vin) }}
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                {{ form_row(form.category) }}
+                            </div>
+
+                            <div class="lg:flex gap-6">
+                                <div class="field">
+                                    {{ form_row(form.brand) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_row(form.model) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_row(form.color) }}
+                                </div>
+                            </div>
+                        </section>
                     </div>
 
                     <input type="radio" name="main_tab" class="tab" aria-label="Échéances" />
@@ -110,6 +98,83 @@
                     <input type="radio" name="main_tab" class="tab" aria-label="Documents" />
                     <div class="tab-content pt-6">
                         <p class="text-muted">Documents officiels et fichiers du véhicule : bientôt.</p>
+                    </div>
+
+                    <input type="radio" name="main_tab" class="tab" aria-label="Informations technique" />
+                    <div class="tab-content pt-4">
+                        <section>
+                            <h2 class="section-title">Motorisation et masses</h2>
+                            <div class="grid grid-cols-5 gap-6">
+                                <div class="field">
+                                    {{ form_row(form.energy) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_row(form.engineDisplacement) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_row(form.netPowerKw) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_row(form.fiscalPower) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_row(form.co2Emissions) }}
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-4 gap-6">
+                                <div class="field">
+                                    {{ form_row(form.seatCount) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_row(form.unladenMass) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_row(form.maxLadenMass) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_row(form.maxCombinedMass) }}
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="mt-2">
+                            <h2 class="section-title">Certificat d'immatriculation</h2>
+                            <div class="lg:flex gap-6">
+                                <div class="field">
+                                    {{ form_row(form.firstRegistrationDate) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_row(form.currentRegistrationDate) }}
+                                </div>
+                            </div>
+
+                            <div class="lg:flex gap-6">
+                                <div class="field">
+                                    {{ form_row(form.typeApprovalNumber) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_row(form.variantType) }}
+                                </div>
+                            </div>
+
+                            <div class="lg:flex gap-6">
+                                <div class="field">
+                                    {{ form_row(form.cnit) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_row(form.euCategory) }}
+                                </div>
+                            </div>
+
+                            <div class="lg:flex gap-6">
+                                <div class="field">
+                                    {{ form_row(form.nationalGenre) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_row(form.bodyType) }}
+                                </div>
+                            </div>
+                        </section>
                     </div>
                 </div>
             </div>
@@ -137,40 +202,44 @@
             <h2 class="flex items-center text-xl h-10 mb-3">Fil d'activité</h2>
 
             <div class="sheet flex flex-col gap-5">
-    <button class="btn btn-sm btn-primary" onclick="modal_create_activities.showModal()">
-        {{ ux_icon('lucide:plus', {class: 'size-4'}) }} Note
-    </button>
+                <button class="btn btn-sm btn-primary" onclick="modal_create_activities.showModal()">
+                    {{ ux_icon('lucide:plus', {class: 'size-4'}) }} Note
+                </button>
 
-    <ol>
-        {% for activity in vehicle.activities %}
-            {% set operator = activity.operator %}
-            <li class="relative flex gap-3 pb-5 last:pb-0">
-                {% if not loop.last %}
-                    <span class="absolute left-3.5 top-8 bottom-0 w-px bg-base-content/10" aria-hidden="true"></span>
-                {% endif %}
+                <ol>
+                    {% for activity in vehicle.activities %}
+                        {% set operator = activity.operator %}
+                        <li class="relative flex gap-3 pb-5 last:pb-0">
+                            {% if not loop.last %}
+                                <span class="absolute left-3.5 top-8 bottom-0 w-px bg-base-content/10" aria-hidden="true"></span>
+                            {% endif %}
 
-                <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-base-content/10 text-xs font-medium">
-                    {{ operator ? (operator.firstname|first ~ operator.lastname|first)|upper : ux_icon('lucide:bot', {class: 'size-4'}) }}
-                </span>
+                            <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-base-content/10 text-xs font-medium">
+                                {{ operator ? (operator.firstname|first ~ operator.lastname|first)|upper : ux_icon('lucide:bot', {class: 'size-4'}) }}
+                            </span>
 
-                <div class="min-w-0 flex-1">
-                    <p class="text-sm leading-7">
-                        <span class="font-medium">{{ operator ? operator.firstname ~ ' ' ~ operator.lastname : 'Système' }}</span>
-                        <span class="text-muted">a ajouté une note</span>
-                    </p>
-                    <time class="block text-xs text-muted" datetime="{{ activity.createdAt|date('c') }}">
-                        {{ activity.createdAt|date('d/m/Y à H:i') }}
-                    </time>
-                    <div class="mt-2 rounded-box bg-base-200 px-3 py-2 text-sm break-words">
-                        {{ activity.note|nl2br }}
-                    </div>
-                </div>
-            </li>
-        {% else %}
-            <li class="py-6 text-center text-sm text-muted">Aucune activité pour l'instant</li>
-        {% endfor %}
-    </ol>
-</div>
+                            <div class="min-w-0 flex-1">
+                                <p class="text-sm leading-7">
+                                    <span class="font-medium">{{ operator ? operator.firstname ~ ' ' ~ operator.lastname : 'Système' }}</span>
+                                    <span class="text-muted">a ajouté une note</span>
+                                </p>
+
+                                <time class="block text-xs text-muted" datetime="{{ activity.createdAt|date('c') }}">
+                                    {{ activity.createdAt|date('d/m/Y à H:i') }}
+                                </time>
+
+                                {% if activity.note %}
+                                    <div class="mt-2 rounded-box bg-base-200 px-3 py-2 text-sm break-words">
+                                        {{ activity.note|nl2br }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="py-6 text-center text-sm text-muted">Aucune activité pour l'instant</li>
+                    {% endfor %}
+                </ol>
+            </div>
         </aside>
 
 		<twig:Modal title="Nouvelle activité" id="modal_create_activities">

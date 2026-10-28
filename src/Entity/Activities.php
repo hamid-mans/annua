@@ -30,7 +30,7 @@ class Activities
     #[ORM\JoinColumn(nullable: false)]
     private ?User $operator = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $note = null;
 
     #[ORM\Column]

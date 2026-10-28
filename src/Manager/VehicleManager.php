@@ -2,10 +2,13 @@
 
 namespace App\Manager;
 
+use App\Entity\Activities;
 use App\Entity\User;
 use App\Entity\Vehicle;
+use App\Enum\ActivitiesType;
 use App\Enum\VehicleStatus;
 use App\Repository\VehicleRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -19,6 +22,7 @@ final readonly class VehicleManager
         private VehicleRepository $vehicleRepository,
         private Security $security,
         private EntityManagerInterface $entityManager,
+        private ActivitiesManager $activitiesManager
     )
     {
         $this->user = $this->security->getUser();
@@ -48,6 +52,14 @@ final readonly class VehicleManager
     {
         $vehicle->setCompany($this->user->getCompany());
 
+        $activities = new Activities();
+        $activities->setCompany($vehicle->getCompany());
+        $activities->setOperator($this->user);
+        $activities->setType(ActivitiesType::Create);
+        $activities->setVehicle($vehicle);
+        $activities->setCreatedAt(new DateTimeImmutable());
+
+        $this->entityManager->persist($activities);
         $this->entityManager->persist($vehicle);
         $this->entityManager->flush();
 
