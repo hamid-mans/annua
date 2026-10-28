@@ -3,11 +3,11 @@
 {% block title %}Nouvelle société{% endblock %}
 
 {% block body %}
-    <a href="{{ path('admin.company.index') }}" class="text-sm text-base-content/60 hover:text-base-content">← Retour aux sociétés</a>
+    <a href="{{ path('admin.company.index') }}" class="text-sm text-muted hover:text-base-content">← Retour aux sociétés</a>
 
     <h1 class="mb-6 mt-3 text-2xl font-bold tracking-tight">Nouvelle société</h1>
 
-    <div class="max-w-xl rounded-box border border-base-300/70 bg-base-100 p-6">
+    <div class="max-w-xl rounded-box border border-base-content/10 bg-base-100 p-6">
         {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
         {% if form.vars.errors|length > 0 %}
             <div role="alert" class="alert alert-soft alert-error mb-5">

@@ -44,9 +44,9 @@
 } %}
 
 <div class="sticky top-0 z-40">
-    <div class="h-[3px] bg-accent"></div>
+    <div class="h-[3px] bg-primary"></div>
 
-    <header class="navbar h-[65px] shrink-0 border-b border-base-300/70 bg-base-100 px-4 shadow-sm lg:px-6">
+    <header class="navbar h-[65px] shrink-0 border-b border-base-content/10 bg-base-100 px-4 shadow-sm lg:px-6">
         <div class="flex flex-none items-center gap-2">
             <div class="dropdown lg:hidden">
                 <button type="button" tabindex="0" class="btn btn-ghost btn-square" aria-label="Ouvrir le menu">
@@ -54,7 +54,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
                 </button>
-                <ul tabindex="0" class="menu dropdown-content z-50 mt-3 w-56 rounded-box border border-base-300/70 bg-base-100 p-2 shadow-xl">
+                <ul tabindex="0" class="menu dropdown-content z-50 mt-3 w-56 rounded-box border border-base-content/10 bg-base-100 p-2 shadow-xl">
                     <li>
                         <a href="{{ path('admin.company.index') }}" class="top-nav-link {{ current_route starts with 'admin.company' ? 'active' : '' }}">
                             {{ ux_icon('solar:buildings-2-outline', {class: 'size-5'}) }}
@@ -90,17 +90,17 @@
 
             {% if app.user %}
                 <div class="dropdown dropdown-end">
-                    <div tabindex="0" role="button" class="flex cursor-pointer select-none items-center gap-2.5 rounded-lg px-3 py-1.5 transition-colors duration-150 hover:bg-base-300/40">
+                    <div tabindex="0" role="button" class="flex cursor-pointer select-none items-center gap-2.5 rounded-lg px-3 py-1.5 transition-colors duration-150 hover:bg-base-200">
                         <div class="hidden flex-col text-right sm:flex">
                             <span class="text-sm font-semibold leading-tight">{{ app.user.userIdentifier }}</span>
-                            <span class="mt-0.5 text-[10px] uppercase tracking-wide text-base-content/50">Administrateur</span>
+                            <span class="mt-0.5 text-[10px] uppercase tracking-wide text-muted">Administrateur</span>
                         </div>
-                        <div class="flex size-8 items-center justify-center rounded-full bg-base-300 text-sm font-bold text-base-content">
+                        <div class="flex size-8 items-center justify-center rounded-full bg-primary-soft text-sm font-bold text-primary-soft-content">
                             {{ app.user.userIdentifier|first|upper }}
                         </div>
                     </div>
 
-                    <ul tabindex="-1" class="menu dropdown-content z-[60] mt-3 w-52 rounded-box border border-base-300/70 bg-base-100 p-2 shadow-xl">
+                    <ul tabindex="-1" class="menu dropdown-content z-[60] mt-3 w-52 rounded-box border border-base-content/10 bg-base-100 p-2 shadow-xl">
                         <li class="menu-title px-2 py-1 text-[11px] font-semibold uppercase tracking-wider opacity-50">Mon compte</li>
                         <li>
                             <a data-turbo="false" href="{{ path('app_logout') }}" class="mt-1 py-2 text-error hover:bg-error/10 hover:text-error">

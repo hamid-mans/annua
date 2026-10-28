@@ -43,14 +43,14 @@
     {label: 'Paramètres', icon: 'lucide:settings-2', route: null, active: false},
 ] %}
 
-<header class="sticky top-0 z-40 flex h-12 shrink-0 items-stretch gap-8 border-b border-base-300/70 bg-base-100 px-4 lg:px-6">
+<header class="sticky top-0 z-40 flex h-12 shrink-0 items-stretch gap-8 border-b border-base-content/10 bg-base-100 px-4 lg:px-6">
 
     {# Menu mobile #}
     <div class="dropdown flex items-center lg:hidden">
         <button type="button" tabindex="0" class="btn btn-ghost btn-sm btn-square" aria-label="Ouvrir le menu">
             {{ ux_icon('lucide:menu', {class: 'size-5'}) }}
         </button>
-        <ul tabindex="0" class="menu dropdown-content top-full z-50 mt-1 w-56 rounded-box border border-base-300 bg-base-100 p-1.5 shadow-lg">
+        <ul tabindex="0" class="menu dropdown-content top-full z-50 mt-1 w-56 rounded-box border border-base-content/10 bg-base-100 p-1.5 shadow-lg">
             {% for item in nav_items %}
                 <li>
                     <a href="{{ item.route ? path(item.route) : '#' }}" class="{{ item.active ? 'menu-active' }}">
@@ -80,18 +80,18 @@
 
     {# Menu utilisateur #}
     <div class="dropdown dropdown-end ml-auto flex items-center">
-        <div tabindex="0" role="button" class="flex cursor-pointer items-center gap-2 text-sm text-base-content/70 transition-colors hover:text-base-content">
+        <div tabindex="0" role="button" class="flex cursor-pointer items-center gap-2 text-sm text-muted transition-colors hover:text-base-content">
             <span class="hidden sm:inline">{{ app.user.firstname }} {{ app.user.lastname }}</span>
-            <span class="flex size-7 items-center justify-center rounded-full bg-base-content/10 text-xs font-medium text-base-content">
+            <span class="flex size-7 items-center justify-center rounded-full bg-primary-soft text-xs font-medium text-primary-soft-content">
                 {{ (app.user.firstname|default('')|first ~ app.user.lastname|default('')|first)|upper }}
             </span>
             {{ ux_icon('lucide:chevron-down', {class: 'size-3.5'}) }}
         </div>
 
-        <div tabindex="0" class="dropdown-content top-full z-50 mt-1 w-60 rounded-box border border-base-300 bg-base-100 p-1.5 shadow-lg">
-            <div class="mb-1 border-b border-base-300 px-3 pb-2 pt-1.5">
+        <div tabindex="0" class="dropdown-content top-full z-50 mt-1 w-60 rounded-box border border-base-content/10 bg-base-100 p-1.5 shadow-lg">
+            <div class="mb-1 border-b border-base-content/10 px-3 pb-2 pt-1.5">
                 <p class="text-sm font-medium">{{ app.user.firstname }} {{ app.user.lastname }}</p>
-                <p class="text-xs text-base-content/50">{{ app.user.company.name }}</p>
+                <p class="text-xs text-muted">{{ app.user.company.name }}</p>
             </div>
 
             <ul class="menu w-full p-0">
@@ -106,7 +106,7 @@
                 </li>
             </ul>
 
-            <div class="my-1 border-t border-base-300"></div>
+            <div class="my-1 border-t border-base-content/10"></div>
 
             <ul class="menu w-full p-0">
                 <li>
@@ -133,7 +133,7 @@
         data-controller="magic-bar"
         data-magic-bar-type-value="{{ flash_type }}"
         data-action="turbo:before-cache@document->magic-bar#reset"
-        class="transition-transform duration-200 ease-out hover:scale-[1.05] pointer-events-auto flex max-w-full items-center gap-1 rounded-2xl border border-base-300 bg-base-100/80 py-2.5 px-2.5 shadow-lg backdrop-blur">
+        class="transition-transform duration-200 ease-out hover:scale-[1.05] pointer-events-auto flex max-w-full items-center gap-1 rounded-2xl border border-base-content/10 bg-base-100/80 py-2.5 px-2.5 shadow-lg backdrop-blur">
         {% block magic_bar %}
             <i>Aucune action possible ici...</i>
         {% endblock %}

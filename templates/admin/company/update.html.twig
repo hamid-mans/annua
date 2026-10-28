@@ -3,11 +3,11 @@
 {% block title %}{{ company_name }}{% endblock %}
 
 {% block body %}
-    <a href="{{ path('admin.company.index') }}" class="text-sm text-base-content/60 hover:text-base-content">← Retour aux sociétés</a>
+    <a href="{{ path('admin.company.index') }}" class="text-sm text-muted hover:text-base-content">← Retour aux sociétés</a>
 
     <div class="mb-6 mt-3">
         <h1 class="text-2xl font-bold tracking-tight">{{ company_name }}</h1>
-        <p class="mt-1 text-sm text-base-content/60">
+        <p class="mt-1 text-sm text-muted">
             {{ company.users|length }} {{ company.users|length > 1 ? 'utilisateurs' : 'utilisateur' }}
         </p>
     </div>
@@ -15,7 +15,7 @@
     <div class="tabs tabs-border">
         <input type="radio" name="company_tabs" class="tab" aria-label="Informations" {{ active_tab == 'info' ? 'checked' : '' }}>
         <div class="tab-content pt-6">
-            <div class="max-w-xl rounded-box border border-base-300/70 bg-base-100 p-6">
+            <div class="max-w-xl rounded-box border border-base-content/10 bg-base-100 p-6">
                 {{ form_start(company_form, {attr: {novalidate: 'novalidate'}}) }}
                 {% if company_form.vars.errors|length > 0 %}
                     <div role="alert" class="alert alert-soft alert-error mb-5">
@@ -42,13 +42,13 @@
             <div class="mt-6 max-w-xl rounded-box border border-error/30 bg-base-100 p-6">
                 <h2 class="font-semibold">Supprimer la société</h2>
                 {% if company.users is empty %}
-                    <p class="mt-1 text-sm text-base-content/60">Cette action est définitive.</p>
+                    <p class="mt-1 text-sm text-muted">Cette action est définitive.</p>
                     <form method="post" action="{{ path('admin.company.delete', {id: company.id}) }}" class="mt-4" onsubmit="return confirm('Supprimer définitivement cette société ?')">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete-company-' ~ company.id) }}">
                         <button type="submit" class="btn btn-sm text-error">Supprimer la société</button>
                     </form>
                 {% else %}
-                    <p class="mt-1 text-sm text-base-content/60">Impossible tant que la société compte des utilisateurs : supprimez-les d'abord depuis l'onglet Utilisateurs.</p>
+                    <p class="mt-1 text-sm text-muted">Impossible tant que la société compte des utilisateurs : supprimez-les d'abord depuis l'onglet Utilisateurs.</p>
                     <button type="button" class="btn btn-sm mt-4" disabled>Supprimer la société</button>
                 {% endif %}
             </div>
@@ -62,15 +62,15 @@
             </div>
 
             {% if company.users is empty %}
-                <div class="rounded-box border border-dashed border-base-300 bg-base-100 p-10 text-center">
+                <div class="rounded-box border border-dashed border-base-content/10 bg-base-100 p-10 text-center">
                     <p class="font-medium">Aucun utilisateur dans cette société</p>
-                    <p class="mt-1 text-sm text-base-content/60">Ajoutez un gestionnaire pour commencer.</p>
+                    <p class="mt-1 text-sm text-muted">Ajoutez un gestionnaire pour commencer.</p>
                 </div>
             {% else %}
-                <div class="overflow-x-auto rounded-box border border-base-300/70 bg-base-100">
+                <div class="overflow-x-auto rounded-box border border-base-content/10 bg-base-100">
                     <table class="table">
                         <thead>
-                        <tr class="text-xs uppercase tracking-wide text-base-content/50">
+                        <tr class="text-xs uppercase tracking-wide text-muted">
                             <th>E-mail</th>
                             <th>Rôles</th>
                             <th class="text-right"><span class="sr-only">Modifier</span></th>
@@ -85,7 +85,7 @@
                                 <td>
                                     <div class="flex flex-wrap gap-1">
                                         {% if 'ROLE_MANAGER' in member.roles %}
-                                            <span class="badge badge-soft badge-accent">Gestionnaire</span>
+                                            <span class="badge badge-soft badge-primary">Gestionnaire</span>
                                         {% endif %}
                                         {% if 'ROLE_DRIVER' in member.roles %}
                                             <span class="badge badge-soft">Conducteur</span>
@@ -110,7 +110,7 @@
                 <h3 id="user-modal-title" class="text-lg font-semibold">
                     {{ edited_user ? 'Modifier l\'utilisateur' : 'Nouvel utilisateur' }}
                 </h3>
-                <p class="mb-5 mt-1 text-sm text-base-content/60">{{ company_name }}</p>
+                <p class="mb-5 mt-1 text-sm text-muted">{{ company_name }}</p>
 
                 {{ form_start(user_form, {attr: {novalidate: 'novalidate'}}) }}
                 {% if user_form.vars.errors|length > 0 %}
@@ -139,7 +139,7 @@
                             </label>
                         {% endfor %}
                     </div>
-                    <p class="text-sm text-base-content/60">Un utilisateur peut cumuler les deux rôles.</p>
+                    <p class="text-sm text-muted">Un utilisateur peut cumuler les deux rôles.</p>
                     {% for error in user_form.roles.vars.errors %}
                         <p class="text-sm text-error">{{ error.message }}</p>
                     {% endfor %}
@@ -148,7 +148,7 @@
                 <div class="mb-5 space-y-1.5">
                     {{ form_label(user_form.plainPassword.first, null, {label_attr: {class: 'block text-sm font-medium'}}) }}
                     {{ form_widget(user_form.plainPassword.first, {attr: {class: 'input w-full' ~ (user_form.plainPassword.vars.errors|length > 0 or user_form.plainPassword.first.vars.errors|length > 0 ? ' input-error' : '')}}) }}
-                    <p class="text-sm text-base-content/60">
+                    <p class="text-sm text-muted">
                         {{ edited_user ? 'Laissez vide pour conserver le mot de passe actuel.' : '10 caractères minimum. À transmettre à l\'utilisateur.' }}
                     </p>
                     {% for error in user_form.plainPassword.vars.errors %}
@@ -174,7 +174,7 @@
                 {{ form_end(user_form) }}
 
                 {% if edited_user %}
-                    <div class="mt-6 border-t border-base-300/70 pt-4">
+                    <div class="mt-6 border-t border-base-content/10 pt-4">
                         <form method="post" action="{{ path('admin.company.user.delete', {id: company.id, userId: edited_user.id}) }}" onsubmit="return confirm('Supprimer cet utilisateur ?')">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete-user-' ~ edited_user.id) }}">
                             <button type="submit" class="btn btn-ghost btn-sm text-error hover:bg-error/10">Supprimer cet utilisateur</button>

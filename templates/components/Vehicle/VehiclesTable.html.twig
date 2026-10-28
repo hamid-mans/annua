@@ -7,7 +7,7 @@
 
         <div class="flex gap-2" role="group" aria-label="Filtrer par statut">
             {% for status in enum_cases('App\\Enum\\VehicleStatus') %}
-                <label class="group inline-flex h-9 cursor-pointer select-none items-center gap-1.5 rounded-box border border-base-content/10 bg-base-100 px-3 text-sm text-base-content/70 transition-colors hover:border-base-content/40 has-checked:border-base-content has-checked:bg-base-content has-checked:text-base-100 has-focus-visible:outline-2 has-focus-visible:outline-offset-2">
+                <label class="filter-chip group">
                     <input type="checkbox" class="sr-only" data-model="statuses[]" value="{{ status.value }}" {{ status.value in statuses ? 'checked' }}>
                     {{ status.label }}
                 </label>
@@ -43,7 +43,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="8" class="text-center text-base-content/60">Aucun véhicule</td>
+                    <td colspan="8" class="text-center text-muted">Aucun véhicule</td>
                 </tr>
             {% endfor %}
             </tbody>

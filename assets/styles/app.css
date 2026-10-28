@@ -1,6 +1,39 @@
 @import "tailwindcss";
 @source not "./daisyui{,*}.mjs";
 @plugin "./daisyui.mjs";
+
+/* =========================================================
+   POLICE : Inter, hébergée dans assets/fonts/ (aucun appel à Google)
+   ========================================================= */
+@font-face {
+    font-family: "Inter";
+    src: url("../fonts/Inter/Inter-VariableFont_opsz,wght.ttf") format("ttf");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@theme {
+    --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* =========================================================
+   TOKENS MAISON (hors DaisyUI)
+   Déclarés dans chaque thème plus bas (--muted, --primary-soft…),
+   exposés ici à Tailwind : text-muted, bg-primary-soft, bg-error-soft…
+   ========================================================= */
+@theme inline {
+    --color-muted: var(--muted);
+    --color-primary-soft: var(--primary-soft);
+    --color-primary-soft-content: var(--primary-soft-content);
+    --color-success-soft: var(--success-soft);
+    --color-success-soft-content: var(--success-soft-content);
+    --color-warning-soft: var(--warning-soft);
+    --color-warning-soft-content: var(--warning-soft-content);
+    --color-error-soft: var(--error-soft);
+    --color-error-soft-content: var(--error-soft-content);
+}
+
 @utility bg-dots {
     background-image: radial-gradient(
         color-mix(in oklab, var(--color-base-content) 10%, transparent) 1px,
@@ -17,77 +50,144 @@
 
 @custom-variant dark (&:where([data-theme="annua-dark"], [data-theme="annua-dark"] *));
 
+/* =========================================================
+   THÈME CLAIR
+   ========================================================= */
 @plugin "./daisyui-theme.mjs" {
     name: "annua";
     default: true;
     prefersdark: false;
     color-scheme: "light";
-    --color-base-100: #ffffff;
-    --color-base-200: #fafafa;
-    --color-base-300: #e4e4e7;
-    --color-base-content: #09090b;
-    --color-primary: #212124;
-    --color-primary-content: #ffffff;
-    --color-secondary: #ececec;
-    --color-secondary-content: #212124;
-    --color-accent: #3358d4;
-    --color-accent-content: #ffffff;
-    --color-neutral: #f4f4f5;
-    --color-neutral-content: #212124;
-    --color-info: #0ea5e9;
-    --color-info-content: #ffffff;
-    --color-success: #10b940;
-    --color-success-content: #ffffff;
-    --color-warning: #e08a54;
-    --color-warning-content: #09090b;
-    --color-error: #ef4444;
-    --color-error-content: #ffffff;
-    --radius-selector: 0.5rem;
-    --radius-field: 0.5rem;
+
+    /* Fonds et texte : neutres légèrement bleutés (teinte 265) */
+    --color-base-100: oklch(100% 0 0);
+    --color-base-200: oklch(97.5% 0.006 265);
+    --color-base-300: oklch(91.5% 0.012 265);
+    --color-base-content: oklch(24% 0.03 265);
+
+    /* Bleu Annua : la seule couleur d'action */
+    --color-primary: oklch(48% 0.19 265);
+    --color-primary-content: oklch(98.5% 0.01 265);
+
+    /* secondary = version douce du bleu (btn-secondary = bouton « soft ») */
+    --color-secondary: oklch(95% 0.03 265);
+    --color-secondary-content: oklch(40% 0.17 265);
+
+    /* accent et info : alignés sur le bleu, ne portent aucun statut */
+    --color-accent: oklch(48% 0.19 265);
+    --color-accent-content: oklch(98.5% 0.01 265);
+    --color-info: oklch(48% 0.19 265);
+    --color-info-content: oklch(98.5% 0.01 265);
+
+    /* Encre profonde : tooltips, badges neutres */
+    --color-neutral: oklch(30% 0.035 265);
+    --color-neutral-content: oklch(97% 0.01 265);
+
+    /* Statuts d'échéance */
+    --color-success: oklch(58% 0.14 155);
+    --color-success-content: oklch(98% 0.01 155);
+    --color-warning: oklch(78% 0.16 75);
+    --color-warning-content: oklch(28% 0.07 60);
+    --color-error: oklch(56% 0.21 27);
+    --color-error-content: oklch(98% 0.01 27);
+
+    /* Tokens maison */
+    --muted: oklch(50% 0.03 265);
+    --primary-soft: oklch(95% 0.03 265);
+    --primary-soft-content: oklch(40% 0.17 265);
+    --success-soft: oklch(95.5% 0.045 155);
+    --success-soft-content: oklch(40% 0.1 155);
+    --warning-soft: oklch(96% 0.05 85);
+    --warning-soft-content: oklch(45% 0.11 60);
+    --error-soft: oklch(95.5% 0.03 27);
+    --error-soft-content: oklch(46% 0.18 27);
+
+    /* Formes : compactes, plates */
+    --radius-selector: 0.25rem;
+    --radius-field: 0.375rem;
     --radius-box: 0.5rem;
     --size-selector: 0.25rem;
-    --size-field: 0.21875rem;
+    --size-field: 0.225rem;
     --border: 1px;
     --depth: 0;
     --noise: 0;
 }
 
+/* =========================================================
+   THÈME SOMBRE
+   ========================================================= */
 @plugin "./daisyui-theme.mjs" {
     name: "annua-dark";
     default: false;
     prefersdark: true;
     color-scheme: "dark";
-    --color-base-100: oklch(21% 0.012 265);
-    --color-base-200: oklch(17% 0.010 265);
-    --color-base-300: oklch(14% 0.010 265);
-    --color-base-content: oklch(92% 0.010 265);
-    --color-primary: oklch(90% 0.010 265);
-    --color-primary-content: oklch(20% 0.012 265);
-    --color-secondary: #2c2c2f;
-    --color-secondary-content: #f4f4f5;
-    --color-accent: #4a6be0;
-    --color-accent-content: #ffffff;
-    --color-neutral: oklch(27% 0.012 265);
-    --color-neutral-content: oklch(92% 0.010 265);
-    --color-info: #38bdf8;
-    --color-info-content: #09090b;
-    --color-success: #22c55e;
-    --color-success-content: #09090b;
-    --color-warning: #dc973f;
-    --color-warning-content: #09090b;
-    --color-error: #f87171;
-    --color-error-content: #09090b;
-    --radius-selector: 0.5rem;
-    --radius-field: 0.5rem;
+
+    /* Convention DaisyUI en sombre : base-100 le plus clair, base-300 le plus profond */
+    --color-base-100: oklch(22% 0.02 265);
+    --color-base-200: oklch(18.5% 0.02 265);
+    --color-base-300: oklch(15.5% 0.02 265);
+    --color-base-content: oklch(94% 0.01 265);
+
+    /* Bleu plus clair en sombre, sinon il disparaît */
+    --color-primary: oklch(68% 0.16 265);
+    --color-primary-content: oklch(20% 0.05 265);
+
+    --color-secondary: oklch(30% 0.07 265);
+    --color-secondary-content: oklch(86% 0.07 265);
+
+    --color-accent: oklch(68% 0.16 265);
+    --color-accent-content: oklch(20% 0.05 265);
+    --color-info: oklch(68% 0.16 265);
+    --color-info-content: oklch(20% 0.05 265);
+
+    --color-neutral: oklch(84% 0.02 265);
+    --color-neutral-content: oklch(22% 0.03 265);
+
+    --color-success: oklch(70% 0.14 155);
+    --color-success-content: oklch(20% 0.04 155);
+    --color-warning: oklch(80% 0.15 75);
+    --color-warning-content: oklch(25% 0.06 60);
+    --color-error: oklch(67% 0.19 27);
+    --color-error-content: oklch(20% 0.05 27);
+
+    --muted: oklch(71% 0.025 265);
+    --primary-soft: oklch(30% 0.07 265);
+    --primary-soft-content: oklch(86% 0.07 265);
+    --success-soft: oklch(30% 0.06 155);
+    --success-soft-content: oklch(86% 0.1 155);
+    --warning-soft: oklch(31% 0.06 70);
+    --warning-soft-content: oklch(87% 0.11 80);
+    --error-soft: oklch(30% 0.07 27);
+    --error-soft-content: oklch(86% 0.08 27);
+
+    --radius-selector: 0.25rem;
+    --radius-field: 0.375rem;
     --radius-box: 0.5rem;
     --size-selector: 0.25rem;
-    --size-field: 0.21875rem;
+    --size-field: 0.225rem;
     --border: 1px;
     --depth: 0;
     --noise: 0;
 }
 
-.input:focus-within{ @apply outline-0 }
+/* =========================================================
+   BADGES DE STATUT D'ÉCHÉANCE (fond doux + point + libellé)
+   ========================================================= */
+@utility badge-status {
+    @apply badge badge-sm gap-1.5 border-0 font-medium before:size-1.5 before:rounded-full before:bg-current before:content-[''];
+}
+.badge-overdue  { @apply badge-status bg-error-soft text-error-soft-content }
+.badge-upcoming { @apply badge-status bg-warning-soft text-warning-soft-content }
+.badge-ok       { @apply badge-status bg-success-soft text-success-soft-content }
+.badge-inactive { @apply badge-status bg-base-200 text-muted }
+
+/* =========================================================
+   FORMULAIRES
+   Focus : bordure bleue + halo doux (remplace l'outline supprimé)
+   ========================================================= */
+.input:focus-within,
+.select:focus-within,
+.textarea:focus { @apply outline-0 border-primary ring-3 ring-primary-soft }
 
 .field { @apply flex flex-col mb-2 w-full }
 .field input:not(input[type="checkbox"]) { @apply w-full }
@@ -98,22 +198,27 @@ input:not(input[type="checkbox"]):not(label input):not(.tab):not([type="radio"])
 .field input[type="checkbox"] { @apply checkbox checkbox-sm }
 select { @apply select outline-0 }
 
+.field-inline { @apply grid grid-cols-1 items-center gap-x-3 py-1 sm:grid-cols-[9rem_minmax(0,1fr)] }
+.field-inline > label { @apply text-sm font-medium }
+
+/* =========================================================
+   TABLEAUX ET BLOCS
+   ========================================================= */
 .table-div { @apply overflow-hidden rounded-box border border-base-content/10 }
-.table-div .table thead { @apply bg-base-200 }
-.table-div .table tbody tr { @apply bg-base-100 hover:bg-base-100/50 cursor-pointer }
+.table-div .table thead { @apply bg-base-200 text-muted }
+.table-div .table tbody tr { @apply bg-base-100 hover:bg-base-200/60 cursor-pointer transition-colors }
 
 .ux-pagination-tailwind { @apply mt-4 }
 .sheet { @apply border rounded-box border-base-content/10 w-full bg-base-100 p-5 mt-2 }
 
-
-.field-inline { @apply grid grid-cols-1 items-center gap-x-3 py-1 sm:grid-cols-[9rem_minmax(0,1fr)] }
-.field-inline > label { @apply text-sm }
-.section-title { @apply mb-2 text-lg }
+.section-title { @apply mb-2 text-lg font-semibold }
 .smart-btn { @apply flex items-center gap-3 rounded-box border border-base-content/10 px-3 py-2 text-sm transition-colors hover:bg-base-200 }
 
 .dock-separator { @apply mx-1 h-5 w-px bg-base-content/10 }
 
-/* MAGIC BAR + TOAST */
+/* =========================================================
+   MAGIC BAR + TOAST
+   ========================================================= */
 .magic-bar {
     @apply flex max-w-full items-center gap-1 rounded-2xl border border-base-content/10 bg-base-100/80 p-2.5 backdrop-blur;
 }
@@ -141,13 +246,32 @@ select { @apply select outline-0 }
     }
 }
 
+/* =========================================================
+   MENU LATÉRAL : item actif en pastille bleutée (au lieu de neutral)
+   ========================================================= */
+.menu .menu-active { @apply bg-primary-soft text-primary-soft-content }
 
+/* =========================================================
+   FILTRES (cases à cocher en forme de puce)
+   ========================================================= */
+.filter-chip {
+    @apply inline-flex h-9 cursor-pointer select-none items-center gap-1.5 rounded-box border border-base-content/10 bg-base-100 px-3 text-sm text-muted transition-colors hover:border-base-content/30 hover:text-base-content has-checked:border-primary has-checked:bg-primary-soft has-checked:text-primary-soft-content has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-primary;
+}
 
-/* HEADER */
+/* =========================================================
+   CONTRASTE : le « soft » warning de DaisyUI écrit en ambre clair,
+   illisible sur fond clair. On force le texte foncé de la charte.
+   ========================================================= */
+.alert-soft.alert-warning,
+.badge-soft.badge-warning { @apply text-warning-soft-content }
+
+/* =========================================================
+   HEADER
+   ========================================================= */
 .top-nav-link {
-    @apply flex items-center border-b-2 border-transparent text-sm text-base-content/60 transition-colors hover:text-base-content;
+    @apply flex items-center border-b-2 border-transparent text-sm text-muted transition-colors hover:text-base-content;
 }
 
 .top-nav-link.active {
-    @apply border-base-content font-medium text-base-content;
+    @apply border-primary font-medium text-base-content;
 }

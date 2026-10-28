@@ -27,40 +27,35 @@
 
             <div class="sheet">
                 {# En-tête : plaque + identité #}
-                <div class="mb-5 flex items-center gap-4">
-                    <div class="flex h-9 overflow-hidden rounded-md border-2 border-base-content">
-                        <span class="flex w-4 items-end justify-center bg-blue-800 pb-0.5 text-[10px] text-white">F</span>
-                        <span class="flex items-center px-3 text-lg font-semibold tracking-widest">{{ vehicle.registrationNumber }}</span>
-                    </div>
-                    <div>
-                        <h1 class="text-xl font-semibold leading-tight">
-                            {{ (vehicle.brand ~ ' ' ~ vehicle.model)|trim ?: 'Marque et modèle à renseigner' }}
-                        </h1>
-                        <p class="text-sm text-base-content/60">
-                            {{ vehicle.category.label }}
-                            {%- if vehicle.energy %} · {{ vehicle.energy.label }}{% endif %}
-                            {%- if vehicle.firstRegistrationDate %} · mise en circulation {{ vehicle.firstRegistrationDate|date('m/Y') }}{% endif %}
-                        </p>
-                    </div>
+
+                <div class="mb-4">
+                    <h1 class="text-2xl font-semibold leading-tight">
+                        {{ (vehicle.brand ~ ' ' ~ vehicle.model)|trim ?: 'Marque et modèle à renseigner' }}
+                    </h1>
+                    <p class="text-sm text-muted">
+                        {{ vehicle.category.label }}
+                        {%- if vehicle.energy %} · {{ vehicle.energy.label }}{% endif %}
+                        {%- if vehicle.firstRegistrationDate %} · mise en circulation {{ vehicle.firstRegistrationDate|date('m/Y') }}{% endif %}
+                    </p>
                 </div>
 
                 {# Boutons intelligents : états neutres tant que les entités n'existent pas #}
                 <div class="mb-5 grid grid-cols-2 gap-2 lg:grid-cols-4">
                     <div class="smart-btn">
-                        <twig:ux:icon name="lucide:calendar-clock" class="size-5 text-base-content/60" />
-                        <div><p class="font-medium">Échéances</p><p class="text-base-content/60">Aucune</p></div>
+                        <twig:ux:icon name="lucide:calendar-clock" class="size-5 text-muted" />
+                        <div><p class="font-medium">Échéances</p><p class="text-muted">Aucune</p></div>
                     </div>
                     <div class="smart-btn">
-                        <twig:ux:icon name="lucide:gauge" class="size-5 text-base-content/60" />
-                        <div><p class="font-medium">Kilométrage</p><p class="text-base-content/60">Aucun relevé</p></div>
+                        <twig:ux:icon name="lucide:gauge" class="size-5 text-muted" />
+                        <div><p class="font-medium">Kilométrage</p><p class="text-muted">Aucun relevé</p></div>
                     </div>
                     <div class="smart-btn">
-                        <twig:ux:icon name="lucide:user" class="size-5 text-base-content/60" />
-                        <div><p class="font-medium">Conducteur</p><p class="text-base-content/60">Non affecté</p></div>
+                        <twig:ux:icon name="lucide:user" class="size-5 text-muted" />
+                        <div><p class="font-medium">Conducteur</p><p class="text-muted">Non affecté</p></div>
                     </div>
                     <div class="smart-btn">
-                        <twig:ux:icon name="lucide:triangle-alert" class="size-5 text-base-content/60" />
-                        <div><p class="font-medium">Signalements</p><p class="text-base-content/60">Aucun</p></div>
+                        <twig:ux:icon name="lucide:triangle-alert" class="size-5 text-muted" />
+                        <div><p class="font-medium">Signalements</p><p class="text-muted">Aucun</p></div>
                     </div>
                 </div>
 
@@ -109,12 +104,12 @@
 
                     <input type="radio" name="main_tab" class="tab" aria-label="Échéances" />
                     <div class="tab-content pt-6">
-                        <p class="text-base-content/60">Échéances du véhicule : bientôt.</p>
+                        <p class="text-muted">Échéances du véhicule : bientôt.</p>
                     </div>
 
                     <input type="radio" name="main_tab" class="tab" aria-label="Documents" />
                     <div class="tab-content pt-6">
-                        <p class="text-base-content/60">Documents officiels et fichiers du véhicule : bientôt.</p>
+                        <p class="text-muted">Documents officiels et fichiers du véhicule : bientôt.</p>
                     </div>
                 </div>
             </div>
@@ -161,9 +156,9 @@
                 <div class="min-w-0 flex-1">
                     <p class="text-sm leading-7">
                         <span class="font-medium">{{ operator ? operator.firstname ~ ' ' ~ operator.lastname : 'Système' }}</span>
-                        <span class="text-base-content/60">a ajouté une note</span>
+                        <span class="text-muted">a ajouté une note</span>
                     </p>
-                    <time class="block text-xs text-base-content/50" datetime="{{ activity.createdAt|date('c') }}">
+                    <time class="block text-xs text-muted" datetime="{{ activity.createdAt|date('c') }}">
                         {{ activity.createdAt|date('d/m/Y à H:i') }}
                     </time>
                     <div class="mt-2 rounded-box bg-base-200 px-3 py-2 text-sm break-words">
@@ -172,7 +167,7 @@
                 </div>
             </li>
         {% else %}
-            <li class="py-6 text-center text-sm text-base-content/60">Aucune activité pour l'instant</li>
+            <li class="py-6 text-center text-sm text-muted">Aucune activité pour l'instant</li>
         {% endfor %}
     </ol>
 </div>
@@ -195,7 +190,7 @@
 {% endblock %}
 
 {% block magic_bar %}
-    <span class="hidden font-mono text-base-content/60 sm:inline">{{ vehicle.registrationNumber }}</span>
+    <span class="hidden font-mono text-muted sm:inline">{{ vehicle.registrationNumber }}</span>
     <span class="dock-separator hidden sm:block" aria-hidden="true"></span>
 
     <button type="submit" form="vehicle-form" class="btn btn-primary">Enregistrer</button>
