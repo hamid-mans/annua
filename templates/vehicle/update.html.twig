@@ -63,7 +63,7 @@
                     <div class="tab-content pt-4">
                         <section>
                             <h2 class="section-title">Identification</h2>
-                            <div class="lg:flex gap-6">
+                            <div class="lg:flex lg:flex-wrap gap-x-6">
                                 <div class="field">
                                     {{ form_row(form.registrationNumber) }}
                                 </div>
@@ -76,7 +76,7 @@
                                 {{ form_row(form.category) }}
                             </div>
 
-                            <div class="lg:flex gap-6">
+                            <div class="lg:flex lg:flex-wrap gap-x-6">
                                 <div class="field">
                                     {{ form_row(form.brand) }}
                                 </div>
@@ -86,6 +86,19 @@
                                 <div class="field">
                                     {{ form_row(form.color) }}
                                 </div>
+                            </div>
+
+                            <div class="lg:flex lg:flex-wrap gap-6">
+                                <div class="field">
+                                    {{ form_row(form.entryDate) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_row(form.usageType) }}
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                {{ form_row(form.comment) }}
                             </div>
                         </section>
                     </div>

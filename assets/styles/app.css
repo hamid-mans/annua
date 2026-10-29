@@ -189,10 +189,11 @@
 .select:focus-within,
 .textarea:focus { @apply outline-0 border-primary ring-3 ring-primary-soft }
 
-.field { @apply flex flex-col mb-2 w-full }
-.field input:not(input[type="checkbox"]) { @apply w-full }
-.field textarea { @apply textarea w-full outline-0 }
-.field select { @apply w-full }
+.field { @apply flex flex-col mb-2 w-full flex-1 min-w-48 }
+.field input:not(input[type="checkbox"]) { @apply w-full bg-base-200/50 }
+.field textarea { @apply textarea w-full outline-0 bg-base-200/50 }
+.field select { @apply w-full bg-base-200/50 }
+.field select option { @apply bg-base-200 }
 .field div { @apply flex flex-col w-full }
 input:not(input[type="checkbox"]):not(label input):not(.tab):not([type="radio"]) { @apply input outline-0 }
 .field input[type="checkbox"] { @apply checkbox checkbox-sm }
@@ -212,15 +213,17 @@ select { @apply select outline-0 }
 .sheet { @apply border rounded-box border-base-content/10 w-full bg-base-100 p-5 mt-2 }
 
 .section-title { @apply mb-2 text-lg font-semibold }
-.smart-btn { @apply flex items-center gap-3 rounded-box border border-base-content/10 px-3 py-2 text-sm transition-colors hover:bg-base-200 }
+.smart-btn { @apply flex items-center gap-3 rounded-box border border-base-content/10 px-3 py-2 text-sm transition-colors hover:bg-base-200/50 }
 
 .dock-separator { @apply mx-1 h-5 w-px bg-base-content/10 }
+
+
 
 /* =========================================================
    MAGIC BAR + TOAST
    ========================================================= */
 .magic-bar {
-    @apply flex max-w-full items-center gap-1 rounded-2xl border border-base-content/10 bg-base-100/80 p-2.5 backdrop-blur;
+    @apply flex max-w-full items-center gap-1 rounded-box border border-base-content/10 bg-base-100/80 p-2.5 backdrop-blur;
 }
 
 .magic-bar-message {
@@ -234,7 +237,7 @@ select { @apply select outline-0 }
 [data-flash="error"] { --flash-color: var(--color-error) }
 
 [data-flash] > .magic-bar {
-    animation: magic-bar-glow 2s ease-out;
+    animation: magic-bar-glow 1s ease-out;
 }
 
 @keyframes magic-bar-glow {

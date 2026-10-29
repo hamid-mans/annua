@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Enum\VehicleCategory;
 use App\Enum\VehicleEnergy;
 use App\Enum\VehicleStatus;
+use App\Enum\VehicleUsage;
 use App\Repository\VehicleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -104,6 +105,15 @@ class Vehicle //implements CompanyOwnedInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $insuranceNumber = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $entryDate = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $comment = null;
+
+    #[ORM\Column(nullable: true, enumType: VehicleUsage::class)]
+    private ?VehicleUsage $usageType = null;
 
     public function __construct()
     {
@@ -453,6 +463,42 @@ class Vehicle //implements CompanyOwnedInterface
     public function setInsuranceNumber(string $insuranceNumber): static
     {
         $this->insuranceNumber = $insuranceNumber;
+
+        return $this;
+    }
+
+    public function getEntryDate(): ?\DateTimeImmutable
+    {
+        return $this->entryDate;
+    }
+
+    public function setEntryDate(?\DateTimeImmutable $entryDate): static
+    {
+        $this->entryDate = $entryDate;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): static
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getUsageType(): ?VehicleUsage
+    {
+        return $this->usageType;
+    }
+
+    public function setUsageType(?VehicleUsage $usageType): static
+    {
+        $this->usageType = $usageType;
 
         return $this;
     }

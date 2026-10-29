@@ -8,12 +8,14 @@ use App\Entity\Vehicle;
 use App\Enum\VehicleCategory;
 use App\Enum\VehicleEnergy;
 use App\Enum\VehicleStatus;
+use App\Enum\VehicleUsage;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -154,6 +156,21 @@ class VehicleType extends AbstractType
             ])
             ->add('insuranceNumber', TextType::class, [
                 'label' => "Numéro d'assurance"
+            ])
+            ->add('entryDate', DateType::class, [
+                'label' => "Date d'entrée dans le parc",
+                'widget' => 'single_text',
+                'input' => 'datetime_immutable',
+                'required' => false
+            ])
+            ->add('comment', TextareaType::class, [
+                'label' => 'Commentaire',
+                'required' => false,
+            ])
+            ->add('usageType', EnumType::class, [
+                'class' => VehicleUsage::class,
+                'label' => 'Type d\'utilisation',
+                'required' => false,
             ])
         ;
     }
