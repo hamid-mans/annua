@@ -11,8 +11,6 @@ use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 
-use function Symfony\Component\Clock\now;
-
 final readonly class ActivitiesManager {
 
     private User $user;

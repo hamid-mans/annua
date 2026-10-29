@@ -47,7 +47,7 @@ final class VehicleController extends AbstractController
             return $this->redirectToRoute('app.vehicle.update', ['id' => $vehicle->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('vehicle/index.html.twig', [
+        return $this->render('app/vehicle/index.html.twig', [
             'form' => $createVehicleForm,
         ]);
     }
@@ -87,7 +87,7 @@ final class VehicleController extends AbstractController
             ], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('vehicle/update.html.twig', [
+        return $this->render('app/vehicle/update.html.twig', [
             'vehicle' => $vehicle,
             'form' => $vehicleForm,
             'activitiesForm' => $activitiesForm
