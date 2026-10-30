@@ -6,6 +6,7 @@ use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
@@ -14,15 +15,21 @@ class Company
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([User::GROUP_ME])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Le nom de la société est obligatoire.')]
     #[Assert\Length(max: 255)]
+    #[Groups([User::GROUP_ME])]
     private ?string $name = null;
 
     /**
      * @var Collection<int, User>
+     *
+     * ⚠️ Volontairement SANS groupe : User expose sa Company, si Company
+     * exposait ses User on bouclerait (User → Company → Users → Company…),
+     * et /api/me renverrait la liste de tous les collègues.
      */
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'company')]
     #[ORM\OrderBy(['email' => 'ASC'])]
@@ -30,6 +37,8 @@ class Company
 
     /**
      * @var Collection<int, Activities>
+     *
+     * Sans groupe : l'historique d'activité n'a rien à faire dans /api/me.
      */
     #[ORM\OneToMany(targetEntity: Activities::class, mappedBy: 'company', orphanRemoval: true)]
     private Collection $activities;

@@ -16,6 +16,20 @@ security:
             # Ensure dev tools and static assets are always allowed
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
+        api:
+            pattern: ^/api
+            lazy: true
+            provider: app_user_provider
+            context: annua            # même session que le firewall « main »
+            json_login:
+                check_path: app_api_login
+                username_path: email  # le JSON envoie "email", pas "username"
+                password_path: password
+            login_throttling:
+                max_attempts: 7
+                interval: '15 minutes'
+            logout:
+                path: app_api_logout
         main:
             lazy: true
             provider: app_user_provider
@@ -24,6 +38,9 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
+
+            json_login:
+                check_path: api_login
 
             login_throttling:
                 max_attempts: 7
@@ -45,6 +62,8 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api, roles: IS_AUTHENTICATED }
         - { path: ^/app(/|$), roles: [ROLE_DRIVER, ROLE_MANAGER] }
         - { path: ^/admin(/|$), roles: ROLE_ADMIN }
         - { path: ^/_components(/|$), roles: [ ROLE_DRIVER, ROLE_MANAGER ] }

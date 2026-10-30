@@ -1,36 +1,47 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
-class SecurityController extends AbstractController
+final class SecurityController extends AbstractController
 {
-    #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    /**
+     * json_login vérifie les identifiants AVANT d'arriver ici.
+     * On n'y entre donc qu'en cas de succès (ou si la requête n'est pas du JSON).
+     */
+    #[Route('/api/login', name: 'app_api_login', methods: ['POST'])]
+    public function login(#[CurrentUser] ?User $user): Response
     {
-        if ($this->getUser()) {
-            if(in_array("ROLE_MANAGER", $this->getUser()->getRoles()) or in_array("ROLE_DRIVER", $this->getUser()->getRoles())){
-                return $this->redirectToRoute('app.index');
-            } else {
-                return $this->redirectToRoute('admin.index');
-            }
+        if (null === $user) {
+            return $this->json(['message' => 'Requête invalide : JSON attendu.'], Response::HTTP_BAD_REQUEST);
         }
 
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        // La preuve de connexion, c'est le cookie de session : rien à renvoyer
+        return new Response(null, Response::HTTP_NO_CONTENT);
     }
 
-    #[Route(path: '/logout', name: 'app_logout')]
-    public function logout(): void
+    /**
+     * Seule source de vérité sur l'utilisateur connecté.
+     * Vue l'appelle après le login et à chaque chargement de l'appli.
+     */
+    #[Route('/api/me', name: 'app_api_me', methods: ['GET'])]
+    public function me(#[CurrentUser] User $user): JsonResponse
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        return $this->json($user, context: ['groups' => ['user:me']]);
+    }
+
+    /**
+     * Jamais exécutée : le firewall intercepte la route avant.
+     */
+    #[Route('/api/logout', name: 'app_api_logout', methods: ['POST'])]
+    public function logout(): never
+    {
+        throw new \LogicException('Intercepté par le firewall.');
     }
 }

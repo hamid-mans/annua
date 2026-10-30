@@ -1,0 +1,76 @@
+/* =========================================================
+   ORDRE DES COUCHES CSS
+   PrimeVue est rangé dans la couche « primevue », placée AVANT
+   les utilitaires Tailwind : une classe Tailwind posée sur un
+   composant PrimeVue gagne toujours (voir cssLayer dans main.ts).
+   ========================================================= */
+@layer theme, base, primevue, components, utilities;
+
+@import "tailwindcss";
+/* Expose les tokens PrimeVue à Tailwind : bg-primary, text-primary-contrast,
+   bg-surface-50, text-color, text-muted-color, border-surface, bg-emphasis… */
+@import "tailwindcss-primeui";
+
+/* Mode sombre piloté par la classe .annua-dark sur <html> (toggle) */
+@custom-variant dark (&:where(.annua-dark, .annua-dark *));
+
+@theme {
+    /* Inter est importée dans main.ts (@fontsource-variable/inter, auto-hébergée) */
+    --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* =========================================================
+   TOKENS MAISON
+   Ce que PrimeVue ne fournit pas : les fonds « soft » des statuts.
+   On s'appuie sur les variables générées par le preset (--p-…),
+   donc une seule source de vérité : annua-preset.ts.
+   ========================================================= */
+@theme inline {
+    --color-primary-soft: light-dark(var(--p-primary-100), color-mix(in srgb, var(--p-primary-400), transparent 80%));
+    --color-primary-soft-content: light-dark(var(--p-primary-700), var(--p-primary-200));
+    --color-success-soft: light-dark(var(--p-green-100), color-mix(in srgb, var(--p-green-500), transparent 80%));
+    --color-success-soft-content: light-dark(var(--p-green-700), var(--p-green-300));
+    --color-warning-soft: light-dark(var(--p-orange-100), color-mix(in srgb, var(--p-orange-500), transparent 80%));
+    --color-warning-soft-content: light-dark(var(--p-orange-700), var(--p-orange-300));
+    --color-error-soft: light-dark(var(--p-red-100), color-mix(in srgb, var(--p-red-500), transparent 80%));
+    --color-error-soft-content: light-dark(var(--p-red-700), var(--p-red-300));
+}
+
+@layer base {
+    /* light-dark() a besoin de savoir quel mode est actif */
+    :root { color-scheme: light; }
+    :root.annua-dark { color-scheme: dark; }
+
+    body {
+        @apply bg-page text-color antialiased;
+    }
+}
+
+/* =========================================================
+   CLASSES SÉMANTIQUES DE FOND
+   Les équivalents de base-100 / base-200 de DaisyUI, avec le
+   mode sombre intégré : plus besoin d'écrire dark: partout.
+   ========================================================= */
+@utility bg-page {
+    @apply bg-surface-0 dark:bg-surface-900;     /* fond principal (ex base-100) */
+}
+@utility bg-subtle {
+    @apply bg-surface-50 dark:bg-surface-950;    /* fond alterné (ex base-200) */
+}
+@utility panel {
+    @apply rounded-lg border border-surface bg-page; /* bloc bordé (ex rounded-box + border) */
+}
+
+/* =========================================================
+   FONDS DÉCORATIFS (repris de la version DaisyUI)
+   ========================================================= */
+@utility bg-dots {
+    background-image: radial-gradient(color-mix(in oklab, var(--p-text-color) 10%, transparent) 1px, transparent 1px);
+    background-size: 14px 14px;
+}
+@utility bg-grid {
+    background-image:
+        linear-gradient(to right, color-mix(in oklab, var(--p-text-color) 4%, transparent) 1px, transparent 1px),
+        linear-gradient(to bottom, color-mix(in oklab, var(--p-text-color) 4%, transparent) 1px, transparent 1px);
+    background-size: 82px 82px;
+}

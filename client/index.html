@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Annua - Gestion de parc automobile pour TPE, PME et associations</title>
+    <meta name="description" content="Annua centralise les échéances, les kilométrages et les documents de vos véhicules. Plus de CT oublié, plus d'info perdue entre le conducteur et le bureau." />
+
+    <!--
+      Appliqué AVANT le chargement de Vue, sinon la page s'affiche en clair
+      une fraction de seconde puis bascule en sombre (le fameux « flash »).
+      1. un choix enregistré via le toggle l'emporte ;
+      2. sinon, on suit la préférence du système.
+    -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('annua-color-mode');
+          var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (dark) document.documentElement.classList.add('annua-dark');
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

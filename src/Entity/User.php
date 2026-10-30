@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -22,44 +23,62 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public const ROLE_MANAGER = 'ROLE_MANAGER';
     public const ROLE_DRIVER = 'ROLE_DRIVER';
 
+    /**
+     * Groupe de sérialisation de /api/me : seuls les champs marqués
+     * #[Groups([self::GROUP_ME])] sortent dans la réponse JSON.
+     * Une constante plutôt qu'une chaîne recopiée partout : une faute de
+     * frappe devient une erreur PHP au lieu d'un champ qui disparaît en silence.
+     */
+    public const GROUP_ME = 'user:me';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([self::GROUP_ME])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
     #[Assert\NotBlank(message: 'L\'adresse e-mail est obligatoire.')]
     #[Assert\Email(message: 'Cette adresse e-mail n\'est pas valide.')]
     #[Assert\Length(max: 180)]
+    #[Groups([self::GROUP_ME])]
     private ?string $email = null;
 
     /**
      * @var list<string> The user roles
      */
     #[ORM\Column]
+    #[Groups([self::GROUP_ME])]
     private array $roles = [];
 
     /**
      * @var string The hashed password
+     *
+     * ⚠️ Volontairement SANS groupe : le hash ne doit jamais sortir de l'API.
      */
     #[ORM\Column]
     private ?string $password = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'RESTRICT')]
+    #[Groups([self::GROUP_ME])]
     private ?Company $company = null;
 
     #[ORM\Column]
     private bool $isVerified = false;
 
     #[ORM\Column(length: 255)]
+    #[Groups([self::GROUP_ME])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups([self::GROUP_ME])]
     private ?string $lastname = null;
 
     /**
      * @var Collection<int, Activities>
+     *
+     * Sans groupe : l'historique d'activité n'a rien à faire dans /api/me.
      */
     #[ORM\OneToMany(targetEntity: Activities::class, mappedBy: 'operator')]
     private Collection $activities;
@@ -144,7 +163,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __serialize(): array
     {
         $data = (array) $this;
-        $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password);
+        $data["\0" . self::class . "\0password"] = hash('crc32c', (string) $this->password);
 
         return $data;
     }
